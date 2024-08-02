@@ -36,13 +36,14 @@ import com.cmgapps.android.compose.toLocalTime
 import kotlinx.datetime.Clock
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-fun ThreePaneScaffoldNavigator<*>.isListExpanded() = scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
+fun ThreePaneScaffoldNavigator<*>.isListExpanded() =
+    scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-fun ThreePaneScaffoldNavigator<*>.isDetailExpanded() = scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
+fun ThreePaneScaffoldNavigator<*>.isDetailExpanded() =
+    scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-@Suppress("ktlint:standard:function-naming")
 @Composable
 fun Dashboard(modifier: Modifier = Modifier) {
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<SubRoutes>()
@@ -75,35 +76,44 @@ fun Dashboard(modifier: Modifier = Modifier) {
             ) {
                 LazyColumn {
                     item {
-                        NavigationItem(title = "Chip Text Field", onClick = {
-                            scaffoldNavigator.navigateTo(
-                                ListDetailPaneScaffoldRole.Detail,
-                                SubRoutes.ChipTextField,
-                            )
-                        })
+                        NavigationItem(
+                            title = "Chip Text Field",
+                            onClick = {
+                                scaffoldNavigator.navigateTo(
+                                    ListDetailPaneScaffoldRole.Detail,
+                                    SubRoutes.ChipTextField,
+                                )
+                            },
+                        )
                     }
                     item {
                         HorizontalDivider()
                     }
                     item {
-                        NavigationItem(title = "Time Picker", onClick = {
-                            val initialTime = Clock.System.now().toLocalTime()
-                            scaffoldNavigator.navigateTo(
-                                ListDetailPaneScaffoldRole.Detail,
-                                SubRoutes.TimePicker(initialTime),
-                            )
-                        })
+                        NavigationItem(
+                            title = "Time Picker",
+                            onClick = {
+                                val initialTime = Clock.System.now().toLocalTime()
+                                scaffoldNavigator.navigateTo(
+                                    ListDetailPaneScaffoldRole.Detail,
+                                    SubRoutes.TimePicker(initialTime),
+                                )
+                            },
+                        )
                     }
                     item {
                         HorizontalDivider()
                     }
                     item {
-                        NavigationItem(title = "Shared Element Transition", onClick = {
-                            scaffoldNavigator.navigateTo(
-                                ListDetailPaneScaffoldRole.Detail,
-                                SubRoutes.SharedElementTransition,
-                            )
-                        })
+                        NavigationItem(
+                            title = "Shared Element Transition",
+                            onClick = {
+                                scaffoldNavigator.navigateTo(
+                                    ListDetailPaneScaffoldRole.Detail,
+                                    SubRoutes.SharedElementTransition,
+                                )
+                            },
+                        )
                     }
                 }
             }
@@ -112,12 +122,14 @@ fun Dashboard(modifier: Modifier = Modifier) {
             scaffoldNavigator.currentDestination?.content?.let {
                 when (it) {
                     SubRoutes.ChipTextField ->
-                        ChipTextFieldScreen(backButton = {
-                            BackButton(
-                                scaffoldNavigator = scaffoldNavigator,
-                                backBehavior = backBehavior,
-                            )
-                        })
+                        ChipTextFieldScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
 
                     is SubRoutes.TimePicker ->
                         TimePickerScreen(
@@ -137,7 +149,6 @@ fun Dashboard(modifier: Modifier = Modifier) {
     )
 }
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 private fun BackButton(
@@ -158,7 +169,6 @@ private fun BackButton(
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @Composable
 private fun NavigationItem(
     title: String,

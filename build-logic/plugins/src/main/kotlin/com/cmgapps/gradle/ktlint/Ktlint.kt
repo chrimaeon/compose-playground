@@ -59,5 +59,10 @@ fun Project.configureKtlint() {
                 attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
             }
         }
+        ktlintConfiguration(libs.findLibrary("ktlint-compose").orElseThrow()) {
+            attributes {
+                attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+            }
+        }
     }
 }

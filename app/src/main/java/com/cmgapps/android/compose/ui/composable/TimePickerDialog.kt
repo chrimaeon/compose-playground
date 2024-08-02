@@ -37,7 +37,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeDailer(
@@ -81,19 +80,23 @@ fun TimeDailer(
             state = timePickerState,
             colors =
                 TimePickerDefaults.colors(
-                    selectorColor = if (hasError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                    selectorColor =
+                        if (hasError) {
+                            MaterialTheme.colorScheme.error
+                        } else {
+                            MaterialTheme.colorScheme.primary
+                        },
                 ),
         )
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @Composable
 fun TimePickerDialog(
-    modifier: Modifier,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
     onConfirmEnabled: Boolean,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     AlertDialog(
@@ -113,7 +116,6 @@ fun TimePickerDialog(
     )
 }
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @PreviewFontScale
 @PreviewLightDark
@@ -137,7 +139,6 @@ private fun PickerWithErrorPreview() {
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @PreviewScreenSizes
 @Composable

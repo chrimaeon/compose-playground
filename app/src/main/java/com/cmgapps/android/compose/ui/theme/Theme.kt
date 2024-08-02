@@ -255,7 +255,6 @@ private val highContrastDarkColorScheme =
         surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
     )
 
-@Suppress("ktlint:standard:function-naming")
 @Composable
 fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),

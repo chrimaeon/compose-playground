@@ -33,8 +33,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -55,7 +57,6 @@ private val tagSeparator = "\\s".toRegex()
  *    looses focus after first chip is added
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@Suppress("ktlint:standard:function-naming")
 @Composable
 fun ChipTextField(
     text: String,
@@ -69,6 +70,9 @@ fun ChipTextField(
     val (allowExpanded, setExpanded) = remember { mutableStateOf(false) }
     val expanded = suggestions.isNotEmpty() || allowExpanded
 
+    val currentOnTextChange by rememberUpdatedState(onTextChange)
+    val currentOnAddChip by rememberUpdatedState(onAddChip)
+
     LaunchedEffect(text) {
         snapshotFlow {
             text
@@ -76,9 +80,9 @@ fun ChipTextField(
             tagSeparator.find(text)?.let {
                 val tag = text.substring(0, it.range.last)
                 if (tag.isNotBlank()) {
-                    onAddChip(tag)
+                    currentOnAddChip(tag)
                 }
-                onTextChange("")
+                currentOnTextChange("")
             }
         }
     }
@@ -124,7 +128,7 @@ fun ChipTextField(
                                     .focusRequester(focusRequester),
                             maxLines = 1,
                             value = text,
-                            onValueChange = onTextChange,
+                            onValueChange = currentOnTextChange,
                             cursorBrush = SolidColor(colors.cursorColor),
                             textStyle = LocalTextStyle.current.copy(color = colors.focusedTextColor),
                         )
@@ -155,8 +159,8 @@ fun ChipTextField(
                         )
                     },
                     onClick = {
-                        onAddChip(it.text)
-                        onTextChange("")
+                        currentOnAddChip(it.text)
+                        currentOnTextChange("")
                         setExpanded(false)
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -166,7 +170,6 @@ fun ChipTextField(
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @Composable
 @PreviewScreenSizes
 // @PreviewLightDark

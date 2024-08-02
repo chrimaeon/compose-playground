@@ -27,7 +27,6 @@ import com.cmgapps.android.compose.ui.composable.ChipTextField
 
 private val options = List(10) { "Foo$it" }
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChipTextFieldScreen(

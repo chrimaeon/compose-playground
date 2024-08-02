@@ -74,7 +74,6 @@ private const val TEXT_KEY = "label"
 private const val PLACEHOLDER_SMALL_KEY = "placeholder-small"
 private const val PLACEHOLDER_LARGE_KEY = "placeholder-large"
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
@@ -123,16 +122,15 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun MainContent(
     cupcakes: List<Cupcake>,
     onShowDetails: (Int) -> Unit,
-    modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     imageBoundsTransform: BoundsTransform,
+    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -239,16 +237,15 @@ private fun MainContent(
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailsContent(
     cupcake: Cupcake,
-    modifier: Modifier = Modifier,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     imageBoundsTransform: BoundsTransform,
+    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         modifier = modifier,
