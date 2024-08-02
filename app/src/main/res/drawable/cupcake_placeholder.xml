@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2024. Christian Grach <christian.grach@cmgapps.com>
+  ~
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+            <size
+                    android:width="100dp"
+                    android:height="100dp" />
+            <solid android:color="@color/cupcake_pink" />
+        </shape>
+    </item>
+    <item
+            android:bottom="38dp"
+            android:drawable="@drawable/outline_cake_24"
+            android:left="38dp"
+            android:right="38dp"
+            android:top="38dp" />
+</layer-list>

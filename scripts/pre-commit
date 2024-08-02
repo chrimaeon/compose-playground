@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# link with `ln -s -f ../../scripts/pre-commit .git/hooks/pre-commit`
+
+if git commit -v --dry-run | grep 'STOPSHIP' >/dev/null 2>&1; then
+  echo "Trying to commit non-committable code."
+  echo "Remove the 'STOPSHIP' string and try again."
+  exit 1
+fi
+
+FILES=$(git diff --cached --name-only | grep -i -E "\.kts?" || true)
+
+if [ -n "$FILES" ]
+then
+    ktlint -F $FILES
+    git add $FILES
+else
+    echo "No file for ktlint"
+fi
