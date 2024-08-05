@@ -9,7 +9,10 @@ package com.cmgapps.android.compose.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -19,6 +22,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 
 private val lightScheme =
@@ -285,6 +289,16 @@ fun Theme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
+        shapes =
+            Shapes(
+                medium =
+                    RoundedCornerShape(
+                        topStart = CornerSize(12.dp),
+                        topEnd = CornerSize(2.dp),
+                        bottomEnd = CornerSize(12.dp),
+                        bottomStart = CornerSize(2.dp),
+                    ),
+            ),
         content = content,
     )
 }

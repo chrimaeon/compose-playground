@@ -75,6 +75,8 @@ dependencies {
     implementation(libs.androidx.compose.animation)
     implementation(libs.coil.compose)
     implementation(libs.androidx.palette)
+    implementation(libs.reveal.core)
+    implementation(libs.reveal.shapes)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

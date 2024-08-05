@@ -50,6 +50,10 @@ sealed class SubRoutes {
     @Parcelize
     @Serializable
     data object SharedElementTransition : SubRoutes(), Parcelable
+
+    @Parcelize
+    @Serializable
+    data object Reveal : SubRoutes(), Parcelable
 }
 
 sealed class SharedElementRoutes {

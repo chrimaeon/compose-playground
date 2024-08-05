@@ -115,6 +115,20 @@ fun Dashboard(modifier: Modifier = Modifier) {
                             },
                         )
                     }
+                    item {
+                        HorizontalDivider()
+                    }
+                    item {
+                        NavigationItem(
+                            title = "Reveal",
+                            onClick = {
+                                scaffoldNavigator.navigateTo(
+                                    ListDetailPaneScaffoldRole.Detail,
+                                    SubRoutes.Reveal,
+                                )
+                            },
+                        )
+                    }
                 }
             }
         },
@@ -143,6 +157,15 @@ fun Dashboard(modifier: Modifier = Modifier) {
                         )
 
                     SubRoutes.SharedElementTransition -> SharedElementTransitionScreen()
+                    SubRoutes.Reveal ->
+                        RevealScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
                 }
             }
         },
