@@ -45,8 +45,10 @@ fun ThreePaneScaffoldNavigator<*>.isDetailExpanded() =
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun Dashboard(modifier: Modifier = Modifier) {
-    val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<SubRoutes>()
+fun Dashboard(
+    modifier: Modifier = Modifier,
+    scaffoldNavigator: ThreePaneScaffoldNavigator<SubRoutes> = rememberListDetailPaneScaffoldNavigator<SubRoutes>(),
+) {
     val backBehavior =
         if (scaffoldNavigator.isListExpanded() &&
             scaffoldNavigator.isDetailExpanded()
@@ -65,7 +67,7 @@ fun Dashboard(modifier: Modifier = Modifier) {
     }
 
     ListDetailPaneScaffold(
-        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        modifier = modifier.background(MaterialTheme.colorScheme.background),
         directive = scaffoldNavigator.scaffoldDirective,
         value = scaffoldNavigator.scaffoldValue,
         listPane = {

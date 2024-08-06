@@ -9,6 +9,7 @@ package com.cmgapps.android.compose.screen
 import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -86,8 +87,7 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
             remember { mutableStateListOf<Cupcake>() }
 
         LaunchedEffect(Unit) {
-            val colors = List(8) { Cupcake(it) }.shuffled()
-            cupcakes.addAll(colors)
+            cupcakes.addAll(List(8) { Cupcake(it) }.shuffled())
         }
 
         val imageBoundsTransform =
@@ -122,9 +122,10 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
     }
 }
 
+@VisibleForTesting
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun MainContent(
+fun MainContent(
     cupcakes: List<Cupcake>,
     onShowDetails: (Int) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
@@ -237,9 +238,10 @@ private fun MainContent(
     }
 }
 
+@VisibleForTesting
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun DetailsContent(
+fun DetailsContent(
     cupcake: Cupcake,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,

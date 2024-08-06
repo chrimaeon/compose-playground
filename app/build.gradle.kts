@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 /*
  * Copyright (c) 2024. Christian Grach <christian.grach@cmgapps.com>
  *
@@ -11,6 +13,7 @@ plugins {
     kotlin("plugin.serialization") version libs.versions.kotlin
     kotlin("plugin.parcelize")
     id("com.cmgapps.gradle.ktlint")
+    alias(libs.plugins.paparazzi)
 }
 
 android {
@@ -49,6 +52,16 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.all { test ->
+            test.useJUnitPlatform()
+            test.testLogging {
+                events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.PASSED, TestLogEvent.STANDARD_OUT)
+            }
+        }
+    }
 }
 
 kotlin {
@@ -82,6 +95,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     testImplementation(libs.junit)
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+    testImplementation(libs.hamcrest)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -51,7 +51,7 @@ fun TimePickerScreen(
         Clock.System
             .now()
             .toLocalTime(),
-    viewModel: TimePickerViewModel = viewModel(),
+    viewModel: TimePickerViewModel = viewModel(factory = TimePickerViewModel.Factory),
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
