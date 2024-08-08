@@ -18,4 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
-include(":plugins")
+include(
+    ":plugins",
+    ":convention",
+)

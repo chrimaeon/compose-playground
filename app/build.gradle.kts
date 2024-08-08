@@ -1,10 +1,11 @@
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-
 /*
  * Copyright (c) 2024. Christian Grach <christian.grach@cmgapps.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -14,6 +15,7 @@ plugins {
     kotlin("plugin.parcelize")
     id("com.cmgapps.gradle.ktlint")
     alias(libs.plugins.paparazzi)
+    id("licenses")
 }
 
 android {
@@ -64,8 +66,32 @@ android {
     }
 }
 
+abstract class CopyLicenseTask : DefaultTask() {
+    @get:InputFile
+    abstract val licenseFile: RegularFileProperty
+
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun taskAction() {
+        copy {
+            from(licenseFile)
+            into(outputDirectory)
+        }
+    }
+}
+
+private fun String.capitalize() = replaceFirstChar { it.uppercase() }
+
 kotlin {
     jvmToolchain(17)
+}
+
+tasks {
+    check {
+        dependsOn(verifyPaparazzi)
+    }
 }
 
 dependencies {

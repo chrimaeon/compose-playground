@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.licenses) apply false
     alias(libs.plugins.versions)
 }
 
@@ -15,5 +16,9 @@ tasks {
     wrapper {
         gradleVersion = libs.versions.gradle.get()
         distributionType = Wrapper.DistributionType.ALL
+    }
+
+    register<Delete>("clean") {
+        delete(rootProject.layout.buildDirectory)
     }
 }
