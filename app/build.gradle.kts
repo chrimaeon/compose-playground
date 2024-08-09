@@ -19,12 +19,21 @@ plugins {
 
 android {
     namespace = "com.cmgapps.android.compose"
-    compileSdk = 34
+    compileSdk =
+        libs.versions.compileSdk
+            .get()
+            .toInt()
 
     defaultConfig {
         applicationId = "com.cmgapps.android.compose.playground"
-        minSdk = 26
-        targetSdk = 34
+        minSdk =
+            libs.versions.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.targetSdk
+                .get()
+                .toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -110,9 +119,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    testImplementation(libs.junit)
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.vintage.engine)
     testImplementation(libs.hamcrest)
 
     androidTestImplementation(libs.androidx.junit)

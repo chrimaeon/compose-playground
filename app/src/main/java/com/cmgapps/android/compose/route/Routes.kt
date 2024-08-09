@@ -6,16 +6,12 @@
 
 package com.cmgapps.android.compose.route
 
-import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.navigation.NavType
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.serializers.LocalTimeIso8601Serializer
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 
 @Serializable
 @Parcelize
@@ -72,25 +68,3 @@ sealed class SharedElementRoutes {
     ) : SharedElementRoutes(),
         Parcelable
 }
-
-val LocalTimeType =
-    object : NavType<LocalTime>(
-        isNullableAllowed = false,
-    ) {
-        override fun get(
-            bundle: Bundle,
-            key: String,
-        ): LocalTime = LocalTime.fromSecondOfDay(bundle.getInt(key))
-
-        override fun put(
-            bundle: Bundle,
-            key: String,
-            value: LocalTime,
-        ) {
-            bundle.putInt(key, value.toSecondOfDay())
-        }
-
-        override fun parseValue(value: String): LocalTime = Json.decodeFromString(LocalTimeIso8601Serializer, value)
-
-        override fun serializeAsValue(value: LocalTime): String = Json.encodeToString(LocalTimeIso8601Serializer, value)
-    }

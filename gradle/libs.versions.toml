@@ -1,7 +1,11 @@
 [versions]
-agp = "8.5.1"
+compileSdk = "35"
+targetSdk = "34"
+minSdk = "26"
+
+agp = "8.5.2"
 kotlin = "2.0.0"
-navigation = "2.8.0-beta06"
+navigation = "2.8.0-beta07"
 reveal = "3.0.7"
 licenses = "4.8.0"
 
@@ -30,11 +34,14 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-compose", version.ref = "navigation" }
 androidx-adaptive-navigation-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation-android", version = "1.0.0-beta04" }
 androidx-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
-androidx-compose-animation = "androidx.compose.animation:animation:1.7.0-beta06"
+androidx-compose-animation = "androidx.compose.animation:animation:1.7.0-beta07"
 androidx-palette = "androidx.palette:palette:1.0.0"
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.11.0" }
 
-junit = { module = "org.junit.jupiter:junit-jupiter", version = "5.10.3" }
+junit-bom = { module = "org.junit:junit-bom", version = "5.10.3" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }
 
 coil-compose = "io.coil-kt:coil-compose:2.7.0"
 

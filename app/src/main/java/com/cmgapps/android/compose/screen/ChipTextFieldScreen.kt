@@ -18,11 +18,13 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.ui.composable.ChipTextField
 
 private val options = List(10) { "Foo$it" }
@@ -36,7 +38,7 @@ fun ChipTextFieldScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(title = { Text("Chip Text Field") }, navigationIcon = backButton)
+            TopAppBar(title = { Text(stringResource(R.string.chip_text_field)) }, navigationIcon = backButton)
         },
     ) { contentPadding ->
         Column(

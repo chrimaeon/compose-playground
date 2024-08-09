@@ -32,8 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.toLocalTime
 import com.cmgapps.android.compose.ui.composable.TimeDailer
 import com.cmgapps.android.compose.viewmodel.TimePickerViewModel
@@ -56,7 +58,7 @@ fun TimePickerScreen(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { Text("Time Picker") }, navigationIcon = backButton)
+            TopAppBar(title = { Text(stringResource(R.string.time_picker)) }, navigationIcon = backButton)
         },
     ) { contentPadding ->
 
@@ -93,7 +95,7 @@ fun TimePickerScreen(
                     style = MaterialTheme.typography.headlineLarge,
                 )
                 Spacer(Modifier.weight(1f))
-                Icon(Icons.Default.EditCalendar, contentDescription = "Pick a time")
+                Icon(Icons.Default.EditCalendar, contentDescription = stringResource(R.string.pick_a_time))
             }
         }
         if (pickerVisible) {

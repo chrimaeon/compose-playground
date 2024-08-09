@@ -33,10 +33,12 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.cmgapps.android.compose.R
 import com.svenjacobs.reveal.Reveal
 import com.svenjacobs.reveal.RevealCanvas
 import com.svenjacobs.reveal.RevealOverlayArrangement
@@ -104,11 +106,17 @@ fun RevealScreen(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
                     TopAppBar(
-                        title = { Text("Reveal") },
+                        title = { Text(stringResource(R.string.reveal)) },
                         navigationIcon = backButton,
                         actions = {
                             IconButton(onClick = { scope.launch { revealState.reveal(RevealKey.Step1) } }) {
-                                Icon(Icons.Default.Replay, contentDescription = "Restart Onboarding")
+                                Icon(
+                                    Icons.Default.Replay,
+                                    contentDescription =
+                                        stringResource(
+                                            R.string.restart_onboarding,
+                                        ),
+                                )
                             }
                         },
                     )
@@ -168,7 +176,7 @@ private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
     when (key) {
         RevealKey.Step1 ->
             OverlayText(
-                "This is Step One\nClick to continue \u2026",
+                stringResource(R.string.onboarding_step1),
                 modifier =
                     Modifier.align(
                         verticalArrangement = RevealOverlayArrangement.Top,
@@ -178,7 +186,7 @@ private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
 
         RevealKey.Step2 ->
             OverlayText(
-                "This is Step Two\nClick to continue \u2026",
+                stringResource(R.string.onboarding_step2),
                 modifier =
                     Modifier.align(
                         horizontalArrangement = RevealOverlayArrangement.Start,
@@ -188,7 +196,7 @@ private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
 
         RevealKey.Step3 ->
             OverlayText(
-                "This is the third step\nThanks for your attention!",
+                stringResource(R.string.onboarding_step3),
                 modifier =
                     Modifier.align(
                         verticalArrangement = RevealOverlayArrangement.Bottom,

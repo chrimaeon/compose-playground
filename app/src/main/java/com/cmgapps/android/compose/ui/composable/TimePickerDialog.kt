@@ -28,9 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.toLocalTime
 import com.cmgapps.android.compose.ui.theme.Theme
 import kotlinx.coroutines.flow.combine
@@ -104,12 +106,12 @@ fun TimePickerDialog(
         onDismissRequest = onDismiss,
         dismissButton = {
             TextButton(onClick = { onDismiss() }) {
-                Text("Dismiss")
+                Text(stringResource(R.string.dismiss))
             }
         },
         confirmButton = {
             TextButton(onClick = { onConfirm() }, enabled = onConfirmEnabled) {
-                Text("OK")
+                Text(stringResource(R.string.ok))
             }
         },
         text = { content() },

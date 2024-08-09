@@ -36,11 +36,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
+import com.cmgapps.android.compose.R
 import org.intellij.lang.annotations.Language
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -54,7 +56,7 @@ fun SettingsScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(title = { Text("Settings") }, navigationIcon = backButton)
+            TopAppBar(title = { Text(stringResource(R.string.settings)) }, navigationIcon = backButton)
         },
     ) { contentPadding ->
         var showOssDialog by rememberSaveable(key = "showOssDialog") { mutableStateOf(false) }
@@ -62,19 +64,19 @@ fun SettingsScreen(
 
         LazyColumn(modifier = Modifier.padding(contentPadding)) {
             item {
-                Header(title = "Licenses")
+                Header(title = stringResource(R.string.licenses))
             }
             item {
                 PreferenceItem(
-                    title = "Open Source Licenses",
-                    description = "Licenses used on Open Source Libraries",
+                    title = stringResource(R.string.open_source_licenses_title),
+                    description = stringResource(R.string.open_source_licencses_desc),
                     onClick = { showOssDialog = true },
                 )
             }
             item {
                 PreferenceItem(
-                    title = "Open Font Licenses",
-                    description = "Licenses used on Fonts",
+                    title = stringResource(R.string.open_font_licenses_title),
+                    description = stringResource(R.string.open_font_licenses_desc),
                     onClick = { showOflDialog = true },
                 )
             }
@@ -97,10 +99,6 @@ private fun PreferenceItem(
     trailingContent: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
-    val modifier = Modifier
-    onClick?.let {
-        modifier.clickable(onClick = it)
-    }
     ListItem(
         modifier =
             onClick?.let {
@@ -190,7 +188,7 @@ fun WebViewSheet(
 private fun OssSheet(onDismissRequest: () -> Unit) {
     WebViewSheet(
         onDismissRequest = onDismissRequest,
-        title = "Open Source Licenses",
+        title = stringResource(id = R.string.open_source_licenses_title),
         url = "file:///android_asset/licenses.html",
     )
 }
@@ -199,7 +197,7 @@ private fun OssSheet(onDismissRequest: () -> Unit) {
 private fun OflSheet(onDismissRequest: () -> Unit) {
     WebViewSheet(
         onDismissRequest = onDismissRequest,
-        title = "Open Font Licenses",
+        title = stringResource(id = R.string.open_font_licenses_title),
         url = "file:///android_asset/ofl.html",
     )
 }

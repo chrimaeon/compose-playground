@@ -277,6 +277,7 @@ fun Theme(
             else -> lightScheme
         }
     val view = LocalView.current
+    // TODO handle edge-to-edge on Android 35 https://developer.android.com/about/versions/15/behavior-changes-15#ux
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
