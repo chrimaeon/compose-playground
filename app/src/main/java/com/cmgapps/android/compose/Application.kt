@@ -7,9 +7,11 @@
 package com.cmgapps.android.compose
 
 import android.app.Application
+import android.webkit.WebView
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.util.DebugLogger
+import com.google.android.material.color.DynamicColors
 
 class Application :
     Application(),
@@ -22,4 +24,12 @@ class Application :
                     logger(DebugLogger())
                 }
             }.build()
+
+    override fun onCreate() {
+        super.onCreate()
+        DynamicColors.applyToActivitiesIfAvailable(this)
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true)
+        }
+    }
 }

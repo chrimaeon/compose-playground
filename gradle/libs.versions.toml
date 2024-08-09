@@ -32,6 +32,7 @@ androidx-adaptive-navigation-android = { group = "androidx.compose.material3.ada
 androidx-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
 androidx-compose-animation = "androidx.compose.animation:animation:1.7.0-beta06"
 androidx-palette = "androidx.palette:palette:1.0.0"
+androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.11.0" }
 
 junit = { module = "org.junit.jupiter:junit-jupiter", version = "5.10.3" }
 

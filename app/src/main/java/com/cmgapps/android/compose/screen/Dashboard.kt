@@ -15,11 +15,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -71,65 +74,80 @@ fun Dashboard(
         directive = scaffoldNavigator.scaffoldDirective,
         value = scaffoldNavigator.scaffoldValue,
         listPane = {
-            AnimatedPane(
-                modifier =
-                    Modifier
-                        .fillMaxSize(),
+            Scaffold(
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = {
+                            scaffoldNavigator.navigateTo(
+                                ListDetailPaneScaffoldRole.Detail,
+                                SubRoutes.Settings,
+                            )
+                        },
+                    ) {
+                        Icon(Icons.Outlined.Settings, "App Info")
+                    }
+                },
             ) {
-                LazyColumn {
-                    item {
-                        NavigationItem(
-                            title = "Chip Text Field",
-                            onClick = {
-                                scaffoldNavigator.navigateTo(
-                                    ListDetailPaneScaffoldRole.Detail,
-                                    SubRoutes.ChipTextField,
-                                )
-                            },
-                        )
-                    }
-                    item {
-                        HorizontalDivider()
-                    }
-                    item {
-                        NavigationItem(
-                            title = "Time Picker",
-                            onClick = {
-                                val initialTime = Clock.System.now().toLocalTime()
-                                scaffoldNavigator.navigateTo(
-                                    ListDetailPaneScaffoldRole.Detail,
-                                    SubRoutes.TimePicker(initialTime),
-                                )
-                            },
-                        )
-                    }
-                    item {
-                        HorizontalDivider()
-                    }
-                    item {
-                        NavigationItem(
-                            title = "Shared Element Transition",
-                            onClick = {
-                                scaffoldNavigator.navigateTo(
-                                    ListDetailPaneScaffoldRole.Detail,
-                                    SubRoutes.SharedElementTransition,
-                                )
-                            },
-                        )
-                    }
-                    item {
-                        HorizontalDivider()
-                    }
-                    item {
-                        NavigationItem(
-                            title = "Reveal",
-                            onClick = {
-                                scaffoldNavigator.navigateTo(
-                                    ListDetailPaneScaffoldRole.Detail,
-                                    SubRoutes.Reveal,
-                                )
-                            },
-                        )
+                AnimatedPane(
+                    modifier =
+                        Modifier
+                            .fillMaxSize(),
+                ) {
+                    LazyColumn {
+                        item {
+                            NavigationItem(
+                                title = "Chip Text Field",
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.ChipTextField,
+                                    )
+                                },
+                            )
+                        }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = "Time Picker",
+                                onClick = {
+                                    val initialTime = Clock.System.now().toLocalTime()
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.TimePicker(initialTime),
+                                    )
+                                },
+                            )
+                        }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = "Shared Element Transition",
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.SharedElementTransition,
+                                    )
+                                },
+                            )
+                        }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = "Reveal",
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.Reveal,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -161,6 +179,16 @@ fun Dashboard(
                     SubRoutes.SharedElementTransition -> SharedElementTransitionScreen()
                     SubRoutes.Reveal ->
                         RevealScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.Settings ->
+                        SettingsScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

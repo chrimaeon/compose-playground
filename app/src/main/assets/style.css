@@ -1,0 +1,21 @@
+body {
+  font-family: sans-serif;
+  background-color: var(--body-background-color);
+  color: var(--content-color)
+}
+
+pre, .license {
+  background-color: var(--license-background-color);
+  border-radius: var(--border-radius);
+  padding:1em; overflow:scroll
+}
+
+@media(prefers-color-scheme: dark) {
+  body {
+    background-color: var(--body-background-color)
+  }
+
+  pre, .license {
+    background-color: var(--license-background-color)
+  }
+}

@@ -6,7 +6,6 @@
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -66,23 +65,13 @@ android {
     }
 }
 
-abstract class CopyLicenseTask : DefaultTask() {
-    @get:InputFile
-    abstract val licenseFile: RegularFileProperty
-
-    @get:OutputDirectory
-    abstract val outputDirectory: DirectoryProperty
-
-    @TaskAction
-    fun taskAction() {
-        copy {
-            from(licenseFile)
-            into(outputDirectory)
-        }
+licenses {
+    reports {
+        // reset the styling; we use a css in assets
+        val css = ""
+        html.stylesheet(css)
     }
 }
-
-private fun String.capitalize() = replaceFirstChar { it.uppercase() }
 
 kotlin {
     jvmToolchain(17)
@@ -116,6 +105,7 @@ dependencies {
     implementation(libs.androidx.palette)
     implementation(libs.reveal.core)
     implementation(libs.reveal.shapes)
+    implementation(libs.androidx.webkit)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

@@ -54,6 +54,10 @@ sealed class SubRoutes {
     @Parcelize
     @Serializable
     data object Reveal : SubRoutes(), Parcelable
+
+    @Parcelize
+    @Serializable
+    data object Settings : SubRoutes(), Parcelable
 }
 
 sealed class SharedElementRoutes {
