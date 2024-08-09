@@ -10,7 +10,6 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Build
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -41,9 +40,11 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewClientCompat
 import androidx.webkit.WebViewFeature
 import com.cmgapps.android.compose.R
 import org.intellij.lang.annotations.Language
+import java.io.File
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -142,9 +143,10 @@ fun WebViewSheet(
     onDismissRequest: () -> Unit,
     title: String,
     url: String,
+    modifier: Modifier = Modifier,
 ) {
     ModalBottomSheet(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         containerColor = BottomSheetDefaults.ContainerColor,
     ) {
@@ -184,12 +186,14 @@ fun WebViewSheet(
     }
 }
 
+fun File.asAssetUrl(): String = "file:///android_asset/${this.path}"
+
 @Composable
 private fun OssSheet(onDismissRequest: () -> Unit) {
     WebViewSheet(
         onDismissRequest = onDismissRequest,
         title = stringResource(id = R.string.open_source_licenses_title),
-        url = "file:///android_asset/licenses.html",
+        url = File("licenses.html").asAssetUrl(),
     )
 }
 
@@ -198,7 +202,7 @@ private fun OflSheet(onDismissRequest: () -> Unit) {
     WebViewSheet(
         onDismissRequest = onDismissRequest,
         title = stringResource(id = R.string.open_font_licenses_title),
-        url = "file:///android_asset/ofl.html",
+        url = File("ofl.html").asAssetUrl(),
     )
 }
 
@@ -226,7 +230,7 @@ private class CssInjectWebViewClient(
     private val licenseBackgroundColor: Color,
     private val contentColor: Color,
     private val licenseShape: CornerBasedShape,
-) : WebViewClient() {
+) : WebViewClientCompat() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onPageFinished(
         view: WebView,

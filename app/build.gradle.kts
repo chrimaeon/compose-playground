@@ -68,7 +68,7 @@ android {
         unitTests.all { test ->
             test.useJUnitPlatform()
             test.testLogging {
-                events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.PASSED, TestLogEvent.STANDARD_OUT)
+                events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
             }
         }
     }
