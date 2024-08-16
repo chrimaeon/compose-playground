@@ -10,6 +10,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,6 +36,9 @@ import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.route.SubRoutes
 import com.cmgapps.android.compose.toLocalTime
 import kotlinx.datetime.Clock
@@ -95,10 +99,12 @@ fun Dashboard(
                             .padding(contentPadding)
                             .fillMaxSize(),
                 ) {
-                    LazyColumn {
+                    LazyColumn(
+                        contentPadding = PaddingValues(bottom = 64.dp),
+                    ) {
                         item {
                             NavigationItem(
-                                title = "Chip Text Field",
+                                title = stringResource(id = R.string.chip_text_field),
                                 onClick = {
                                     scaffoldNavigator.navigateTo(
                                         ListDetailPaneScaffoldRole.Detail,
@@ -112,7 +118,7 @@ fun Dashboard(
                         }
                         item {
                             NavigationItem(
-                                title = "Time Picker",
+                                title = stringResource(id = R.string.time_picker),
                                 onClick = {
                                     val initialTime = Clock.System.now().toLocalTime()
                                     scaffoldNavigator.navigateTo(
@@ -127,7 +133,7 @@ fun Dashboard(
                         }
                         item {
                             NavigationItem(
-                                title = "Shared Element Transition",
+                                title = stringResource(R.string.shared_element_transition),
                                 onClick = {
                                     scaffoldNavigator.navigateTo(
                                         ListDetailPaneScaffoldRole.Detail,
@@ -141,11 +147,25 @@ fun Dashboard(
                         }
                         item {
                             NavigationItem(
-                                title = "Reveal",
+                                title = stringResource(id = R.string.reveal),
                                 onClick = {
                                     scaffoldNavigator.navigateTo(
                                         ListDetailPaneScaffoldRole.Detail,
                                         SubRoutes.Reveal,
+                                    )
+                                },
+                            )
+                        }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.parallax_scrolling),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.ParallaxScrolling,
                                     )
                                 },
                             )
@@ -191,6 +211,16 @@ fun Dashboard(
 
                     SubRoutes.Settings ->
                         SettingsScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.ParallaxScrolling ->
+                        ParallaxScrollingScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

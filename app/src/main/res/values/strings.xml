@@ -24,4 +24,6 @@
     <string name="open_font_licenses_title">Open Font Licenses</string>
     <string name="open_font_licenses_desc">Licenses used for Fonts</string>
     <string name="pick_a_time">Pick a time</string>
+    <string name="shared_element_transition">Shared Element Transition</string>
+    <string name="parallax_scrolling">Parallax Scrolling</string>
 </resources>
