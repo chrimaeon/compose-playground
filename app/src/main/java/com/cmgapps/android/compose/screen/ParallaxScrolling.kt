@@ -121,7 +121,7 @@ fun ParallaxScrollingScreen(
                         alignment = BiasAlignment(verticalBias = parallax * 0.5f, horizontalBias = 0f),
                     )
                     Text(
-                        "Cupcake",
+                        stringResource(R.string.cupcake),
                         modifier =
                             Modifier
                                 .background(
