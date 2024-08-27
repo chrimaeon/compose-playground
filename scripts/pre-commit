@@ -12,7 +12,7 @@ FILES=$(git diff --cached --name-only | grep -i -E "\.kts?" || true)
 
 if [ -n "$FILES" ]
 then
-    ktlint -F -R ./scripts/ktlint-compose-0.3.3-all.jar  $FILES
+    ktlint -F -R ./scripts/ktlint-compose-0.4.10-all.jar  $FILES
     git add $FILES
 else
     echo "No file for ktlint"
