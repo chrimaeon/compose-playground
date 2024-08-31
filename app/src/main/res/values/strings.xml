@@ -27,4 +27,7 @@
     <string name="shared_element_transition">Shared Element Transition</string>
     <string name="parallax_scrolling">Parallax Scrolling</string>
     <string name="cupcake">Cupcake</string>
+    <string name="step_one">Step One</string>
+    <string name="step_two">Step Two</string>
+    <string name="step_three">Step Three</string>
 </resources>

@@ -29,6 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
@@ -73,7 +75,7 @@ fun TimeDailer(
     }
 
     TimePickerDialog(
-        modifier = modifier,
+        modifier = modifier.semantics { testTag = "TimePickerDialog" },
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) },
         onConfirmEnabled = !hasError,

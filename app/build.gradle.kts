@@ -71,6 +71,39 @@ android {
                 events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
             }
         }
+
+        managedDevices {
+            localDevices {
+                create("pixel2api27") {
+                    device = "Pixel 2"
+                    apiLevel = 27
+                    systemImageSource = "aosp"
+                }
+                create("pixel2targetApi") {
+                    device = "Pixel 2"
+                    apiLevel =
+                        libs.versions.targetSdk
+                            .get()
+                            .toInt()
+                    systemImageSource = "aosp-atd"
+                }
+
+                create("pixelTabletTargetApi") {
+                    device = "Pixel Tablet"
+                    apiLevel =
+                        libs.versions.targetSdk
+                            .get()
+                            .toInt()
+                    systemImageSource = "aosp-atd"
+                }
+            }
+
+            groups {
+                create("allDevices") {
+                    targetDevices.addAll(devices)
+                }
+            }
+        }
     }
 }
 

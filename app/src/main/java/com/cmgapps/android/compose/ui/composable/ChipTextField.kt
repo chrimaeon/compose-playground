@@ -42,6 +42,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
@@ -90,7 +92,7 @@ fun ChipTextField(
     val focusRequester = remember { FocusRequester() }
 
     ExposedDropdownMenuBox(
-        modifier = modifier,
+        modifier = modifier.semantics { testTag = "ChipTextField" },
         expanded = expanded,
         onExpandedChange = setExpanded,
     ) {

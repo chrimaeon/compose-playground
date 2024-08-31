@@ -58,6 +58,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.compose.NavHost
@@ -134,7 +136,10 @@ fun MainContent(
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .semantics { testTag = "SharedElementTransitionMainContent" },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier.padding(horizontal = 8.dp),
@@ -155,6 +160,7 @@ fun MainContent(
             ) { cupcake ->
 
                 Card(
+                    modifier = Modifier.semantics { testTag = "CupcakeCard" },
                     onClick = { onShowDetails(cupcake.id) },
                 ) {
                     var backgroundGradient: Brush by
@@ -253,7 +259,7 @@ fun DetailsContent(
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.semantics { testTag = "SharedElementTransitionDetailsContent" },
         topBar = {
             TopAppBar(
                 title = {

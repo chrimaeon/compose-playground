@@ -138,7 +138,7 @@ fun RevealScreen(
                                     onClick = { scope.launch { revealState.reveal(RevealKey.Step2) } },
                                     shape = MaterialTheme.shapes.medium.toRevealShape(),
                                 ).clickable { scope.launch { revealState.reveal(RevealKey.Step1) } },
-                        text = "Step One",
+                        text = stringResource(R.string.step_one),
                     )
                     Spacer(modifier = Modifier.height(100.dp))
 
@@ -150,7 +150,7 @@ fun RevealScreen(
                                     onClick = { scope.launch { revealState.reveal(RevealKey.Step3) } },
                                     shape = MaterialTheme.shapes.medium.toRevealShape(),
                                 ).clickable { scope.launch { revealState.reveal(RevealKey.Step2) } },
-                        text = "Step Two",
+                        text = stringResource(R.string.step_two),
                     )
 
                     Spacer(modifier = Modifier.height(100.dp))
@@ -163,7 +163,7 @@ fun RevealScreen(
                                     onClick = { scope.launch { revealState.hide() } },
                                     shape = MaterialTheme.shapes.medium.toRevealShape(),
                                 ).clickable { scope.launch { revealState.reveal(RevealKey.Step3) } },
-                        text = "Step Three",
+                        text = stringResource(R.string.step_three),
                     )
                 }
             }

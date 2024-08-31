@@ -6,7 +6,6 @@
 
 package com.cmgapps.android.compose.screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -88,6 +87,8 @@ fun ParallaxScrollingScreen(
             }
         }
 
+        val items = remember { List(100) { it } }
+
         LazyColumn(
             modifier =
                 Modifier
@@ -133,12 +134,12 @@ fun ParallaxScrollingScreen(
                     )
                 }
             }
+
             itemsIndexed(
-                List(100) { it },
+                items,
                 key = { _, item -> "item$item" },
                 contentType = { _, _ -> ContentType.Item },
             ) { index, _ ->
-                Log.d("ListItem", "Index: $index")
                 ListItem(headlineContent = { Text("Item $index") })
             }
         }
