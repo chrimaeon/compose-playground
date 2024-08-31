@@ -16,6 +16,7 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.kotlin.dsl.named
 
 @Suppress("unused")
 class LicensesConventionPlugin : Plugin<Project> {
@@ -29,7 +30,7 @@ class LicensesConventionPlugin : Plugin<Project> {
             extensions.configure(ApplicationAndroidComponentsExtension::class.java) {
                 onVariants { variant ->
                     val licenseTask =
-                        project.tasks.named("license${variant.name.capitalize()}Report", LicensesTask::class.java)
+                        project.tasks.named<LicensesTask>("license${variant.name.capitalize()}Report")
 
                     val copyLicense =
                         project.tasks.register(

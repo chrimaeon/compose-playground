@@ -31,7 +31,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -112,7 +112,7 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
                 val details = backstack.toRoute<SharedElementRoutes.Details>()
                 DetailsContent(
                     cupcake = cupcakes.first { it.id == details.id },
-                    onBack = { navController.popBackStack() },
+                    onBack = navController::popBackStack,
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this@composable,
                     imageBoundsTransform = imageBoundsTransform,
@@ -149,7 +149,10 @@ fun MainContent(
                 },
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            itemsIndexed(cupcakes) { _, cupcake ->
+            items(
+                cupcakes,
+                key = { cupcake -> cupcake.id },
+            ) { cupcake ->
 
                 Card(
                     onClick = { onShowDetails(cupcake.id) },
