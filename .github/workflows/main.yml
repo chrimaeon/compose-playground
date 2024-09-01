@@ -1,0 +1,96 @@
+name: Build & Test
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  checkAndUnitTest:
+    name: Check and Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version-file: ./.java-version
+
+      - name: Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('**/build.gradle*', '**/libs.versions.toml') }}
+
+      - name: Gradle Wrapper Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Download dependencies
+        run: ./gradlew dependencies
+
+      - name: Check :app
+        run: ./gradlew :app:check
+
+      - name: Archive App Test results
+        if: ${{ success() || failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-test-results
+          path: |
+            "**/build/reports"
+            "**/build/test-results"
+
+# TODO action consistently fails with "This is because the emulator closed unexpectedly (134)`
+#  connectedAndroidAppTest:
+#    name: Run Android Instrumentation Tests
+#    needs: checkAndUnitTest
+#    runs-on: macos-latest
+#    steps:
+#
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'zulu'
+#          java-version-file: ./.java-version
+#
+#      - name: Gradle Cache
+#        uses: actions/cache@v4
+#        with:
+#          path: |
+#            ~/.gradle/caches/modules-*
+#            ~/.gradle/caches/jars-*
+#            ~/.gradle/caches/build-cache-*
+#          key: gradle-${{ hashFiles('**/build.gradle*', '**/libs.versions.toml') }}
+#
+#      - name: Gradle Wrapper Cache
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.gradle/wrapper
+#          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+#
+#      - name: Accept Android Package Licenses
+#        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
+#
+#      - name: Run instrumented tests
+#        run: ./gradlew cleanManagedDevices --unused-only &&
+#            ./gradlew -Dorg.gradle.workers.max=1 :app:allDevicesDebugAndroidTest
+#            -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+#
+#      - name: Upload test reports
+#        if: ${{ success() || failure() }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: test-reports
+#          path: "**/build/reports/androidTests"
