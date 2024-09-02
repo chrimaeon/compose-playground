@@ -6,6 +6,7 @@
 
 package com.cmgapps.android.compose.screen
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
@@ -49,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,14 +70,34 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.route.SharedElementRoutes
+import com.cmgapps.android.compose.ui.theme.isDark
+import com.google.android.material.color.utilities.Hct
+import com.google.android.material.color.utilities.MaterialDynamicColors
+import com.google.android.material.color.utilities.SchemeContent
+import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 private const val IMAGE_KEY = "image-key"
 private const val TEXT_KEY = "label"
 private const val PLACEHOLDER_SMALL_KEY = "placeholder-small"
 private const val PLACEHOLDER_LARGE_KEY = "placeholder-large"
+
+suspend fun AsyncImagePainter.State.Success.createPalette(): Palette? =
+    suspendCoroutine { continuation ->
+        Palette
+            .from(
+                result.drawable
+                    .toBitmap()
+                    .copy(Bitmap.Config.ARGB_8888, false),
+            ).generate {
+                continuation.resume(it)
+            }
+    }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -124,6 +146,7 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
     }
 }
 
+@SuppressLint("RestrictedApi")
 @VisibleForTesting
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -163,14 +186,21 @@ fun MainContent(
                     modifier = Modifier.semantics { testTag = "CupcakeCard" },
                     onClick = { onShowDetails(cupcake.id) },
                 ) {
+                    val surface = MaterialTheme.colorScheme.surface
+                    val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
+                    val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
+
                     var backgroundGradient: Brush by
                         remember {
                             mutableStateOf(
                                 Brush.verticalGradient(
-                                    listOf(Color.White, Color.LightGray),
+                                    listOf(surface, surfaceVariant),
                                 ),
                             )
                         }
+
+                    var onBackgroundGradient by remember { mutableStateOf(onSurfaceVariant) }
+                    val coroutineScope = rememberCoroutineScope()
                     Column(
                         modifier =
                             Modifier
@@ -179,6 +209,8 @@ fun MainContent(
                                 .padding(8.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+                        val isDark = MaterialTheme.isDark
+
                         with(sharedTransitionScope) {
                             AsyncImage(
                                 model =
@@ -203,30 +235,35 @@ fun MainContent(
                                         .clip(CircleShape),
                                 contentScale = ContentScale.Crop,
                                 onSuccess = { result ->
-                                    Palette
-                                        .from(
-                                            result.result.drawable
-                                                .toBitmap()
-                                                .copy(Bitmap.Config.ARGB_8888, false),
-                                        ).generate {
-                                            it?.let { palette ->
-                                                backgroundGradient =
-                                                    Brush.verticalGradient(
-                                                        listOf(
-                                                            Color(
-                                                                palette.getLightMutedColor(
-                                                                    android.graphics.Color.WHITE,
-                                                                ),
-                                                            ),
-                                                            Color(
-                                                                palette.getMutedColor(
-                                                                    android.graphics.Color.LTGRAY,
-                                                                ),
-                                                            ),
-                                                        ),
-                                                    )
-                                            }
-                                        }
+                                    coroutineScope.launch {
+                                        val palette = result.createPalette()
+
+                                        val schema =
+                                            SchemeContent(
+                                                Hct.fromInt(
+                                                    palette?.getLightMutedColor(
+                                                        android.graphics.Color.LTGRAY,
+                                                    ) ?: android.graphics.Color.LTGRAY,
+                                                ),
+                                                isDark,
+                                                0.0,
+                                            )
+
+                                        val material = MaterialDynamicColors()
+
+                                        backgroundGradient =
+                                            Brush.verticalGradient(
+                                                listOf(
+                                                    Color(material.primaryContainer().getArgb(schema)),
+                                                    Color(
+                                                        material.secondaryContainer().getArgb(schema),
+                                                    ),
+                                                ),
+                                            )
+
+                                        onBackgroundGradient =
+                                            Color(material.onSecondaryContainer().getArgb(schema))
+                                    }
                                 },
                             )
                             Spacer(modifier = Modifier.height(16.dp))
@@ -237,7 +274,7 @@ fun MainContent(
                                         rememberSharedContentState(key = TEXT_KEY + cupcake.id),
                                         animatedVisibilityScope = animatedVisibilityScope,
                                     ),
-                                style = MaterialTheme.typography.labelMedium,
+                                style = MaterialTheme.typography.labelMedium.copy(color = onBackgroundGradient),
                             )
                         }
                     }

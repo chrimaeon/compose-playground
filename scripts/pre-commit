@@ -2,19 +2,20 @@
 
 # link with `ln -s -f ../../scripts/pre-commit .git/hooks/pre-commit`
 
-BASE_DIR=$(dirname "$0")
-
 if git commit -v --dry-run | grep 'STOPSHIP' >/dev/null 2>&1; then
   echo "Trying to commit non-committable code."
   echo "Remove the 'STOPSHIP' string and try again."
   exit 1
 fi
 
+SCRIPT_PATH=$(realpath "$0")
+BASE_DIR=$(dirname "$SCRIPT_PATH")
+
 FILES=$(git diff --cached --name-only | grep -i -E "\.kts?" || true)
 
 if [ -n "$FILES" ]
 then
-    KTLINT_COMPOSE_VERSION=$(sed -n "s/^ktlint-compose = \"\([^\"]*\)\"/\1/p" "$BASE_DIR"/../gradle/libs.versions.toml)
+    KTLINT_COMPOSE_VERSION=$(sed -n "s/^ktlint-compose = \"\([^\"]*\)\"/\1/p" $BASE_DIR/../gradle/libs.versions.toml)
     KTLINT_COMPOSE_LIB_PATH="$BASE_DIR/ktlint-compose-$KTLINT_COMPOSE_VERSION-all.jar"
 
     if [ -f "$KTLINT_COMPOSE_LIB_PATH" ]
