@@ -33,7 +33,7 @@ androidx-material3-compose = { group = "androidx.compose.material3", name = "mat
 androidx-material3-theme = "com.google.android.material:material:1.12.0"
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-compose", version.ref = "navigation" }
-androidx-adaptive-navigation-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation-android", version = "1.0.0-rc01" }
+androidx-adaptive-navigation-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation-android", version = "1.1.0-alpha01" }
 androidx-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
 androidx-compose-animation = "androidx.compose.animation:animation:1.7.0-rc01"
 androidx-palette = "androidx.palette:palette:1.0.0"
