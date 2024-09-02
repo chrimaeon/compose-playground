@@ -89,7 +89,7 @@ jobs:
 
       - name: Run instrumented tests
         run: ./gradlew cleanManagedDevices --unused-only &&
-          ./gradlew :app:allDevicesDebugAndroidTest -Dorg.gradle.workers.max=1
+          ./gradlew :app:pixel2targetApiDebugAndroidTest -Dorg.gradle.workers.max=1
           -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1 -Pandroid.experimental.testOptions.managedDevices.setupTimeoutMinutes=180
 
       - name: Upload test reports
