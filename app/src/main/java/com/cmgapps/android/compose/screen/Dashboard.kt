@@ -170,6 +170,20 @@ fun Dashboard(
                                 },
                             )
                         }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.haze),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.Haze,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -221,6 +235,16 @@ fun Dashboard(
 
                     SubRoutes.ParallaxScrolling ->
                         ParallaxScrollingScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.Haze ->
+                        HazeScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

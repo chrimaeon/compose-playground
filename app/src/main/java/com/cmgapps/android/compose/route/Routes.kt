@@ -58,6 +58,10 @@ sealed class SubRoutes {
     @Parcelize
     @Serializable
     data object ParallaxScrolling : SubRoutes(), Parcelable
+
+    @Parcelize
+    @Serializable
+    data object Haze : SubRoutes(), Parcelable
 }
 
 sealed class SharedElementRoutes {

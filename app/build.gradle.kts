@@ -148,6 +148,8 @@ dependencies {
     implementation(libs.reveal.core)
     implementation(libs.reveal.shapes)
     implementation(libs.androidx.webkit)
+    implementation(libs.haze.haze)
+    implementation(libs.haze.materials)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

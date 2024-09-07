@@ -5,10 +5,11 @@ minSdk = "26"
 
 agp = "8.6.0"
 kotlin = "2.0.20"
-navigation = "2.8.0-rc01"
+navigation = "2.8.0"
 reveal = "3.0.7"
 licenses = "4.8.0"
 ktlint-compose = "0.4.11"
+haze = "0.9.0-beta01"
 
 gradle = "8.10"
 
@@ -56,6 +57,9 @@ ktlint-compose = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktl
 
 reveal-core = { module = "com.svenjacobs.reveal:reveal-core", version.ref = "reveal" }
 reveal-shapes = { module = "com.svenjacobs.reveal:reveal-shapes", version.ref = "reveal" }
+
+haze-haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
 
 hamcrest = "org.hamcrest:hamcrest:3.0"
 
