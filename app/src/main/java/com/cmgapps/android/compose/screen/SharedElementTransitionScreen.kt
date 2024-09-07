@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -165,7 +166,10 @@ fun MainContent(
                 .semantics { testTag = "SharedElementTransitionMainContent" },
     ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier.padding(horizontal = 8.dp),
+            modifier =
+                Modifier
+                    .consumeWindowInsets(contentPadding)
+                    .padding(horizontal = 8.dp),
             contentPadding =
                 with(LocalLayoutDirection.current) {
                     PaddingValues(

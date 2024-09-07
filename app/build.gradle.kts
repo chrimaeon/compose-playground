@@ -19,6 +19,8 @@ plugins {
 
 android {
     namespace = "com.cmgapps.android.compose"
+
+    buildToolsVersion = libs.versions.buildTools.get()
     compileSdk =
         libs.versions.compileSdk
             .get()
@@ -48,10 +50,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
