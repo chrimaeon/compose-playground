@@ -5,6 +5,7 @@
  */
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.time.LocalDate
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -46,11 +47,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BUILD_YEAR", """"TBD"""")
+        }
         release {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            buildConfigField("String", "BUILD_YEAR", """"${LocalDate.now().year}"""")
         }
     }
 
