@@ -113,7 +113,7 @@ fun ParallaxScrollingScreen(
                         model =
                             ImageRequest
                                 .Builder(LocalContext.current)
-                                .data("file:///android_asset/cupcake1.jpg")
+                                .data("file:///android_asset/cupcake1.webp")
                                 .crossfade(true)
                                 .placeholder(R.drawable.cupcake_placeholder)
                                 .build(),

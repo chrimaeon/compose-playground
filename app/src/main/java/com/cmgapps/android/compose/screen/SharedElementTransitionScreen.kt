@@ -366,10 +366,10 @@ data class Cupcake(
     constructor(parcel: Parcel) : this(parcel.readInt())
 
     val previewUrl =
-        "file:///android_asset/cupcake${id}_preview.jpg"
+        "file:///android_asset/cupcake${id}_preview.webp"
 
     val largeUrl =
-        "file:///android_asset/cupcake$id.jpg"
+        "file:///android_asset/cupcake$id.webp"
 
     val title = "Cupcake #$id"
 
