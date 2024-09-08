@@ -3,11 +3,14 @@ on:
   push:
     tags:
       - "*.*.*"
+  workflow_dispatch:
 
 jobs:
   bundleAndCreateRelease:
     name: Bundle and create Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
