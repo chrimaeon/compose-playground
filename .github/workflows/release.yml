@@ -1,0 +1,50 @@
+name: Release
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  bundleAndCreateRelease:
+    name: Bundle and create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version-file: ./.java-version
+
+      - name: Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('**/build.gradle*', '**/libs.versions.toml') }}
+
+      - name: Gradle Wrapper Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Download dependencies
+        run: ./gradlew dependencies
+
+      - name: Build APK :app
+        run: ./gradlew :app:assembleRelease
+
+      - name: Build Bundle :app
+        run: ./gradlew :app:bundleRelease
+
+      - name: Create Github Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+
