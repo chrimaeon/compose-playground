@@ -5,6 +5,7 @@
  */
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.time.LocalDate
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -12,6 +13,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version libs.versions.kotlin
     kotlin("plugin.parcelize")
+    alias(libs.plugins.ksp)
     id("com.cmgapps.gradle.ktlint")
     alias(libs.plugins.paparazzi)
     id("licenses")
@@ -19,6 +21,8 @@ plugins {
 
 android {
     namespace = "com.cmgapps.android.compose"
+
+    buildToolsVersion = libs.versions.buildTools.get()
     compileSdk =
         libs.versions.compileSdk
             .get()
@@ -35,23 +39,31 @@ android {
                 .get()
                 .toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resourceConfigurations += listOf("en")
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BUILD_YEAR", """"TBD"""")
+        }
         release {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            buildConfigField("String", "BUILD_YEAR", """"${LocalDate.now().year}"""")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
@@ -85,7 +97,8 @@ android {
                         libs.versions.targetSdk
                             .get()
                             .toInt()
-                    systemImageSource = "aosp-atd"
+                    // TODO "aosp-atd" not available for api 35
+                    systemImageSource = "google"
                 }
 
                 create("pixelTabletTargetApi") {
@@ -94,7 +107,8 @@ android {
                         libs.versions.targetSdk
                             .get()
                             .toInt()
-                    systemImageSource = "aosp-atd"
+                    // TODO "aosp-atd" not available for api 35
+                    systemImageSource = "google"
                 }
             }
 
@@ -103,6 +117,21 @@ android {
                     targetDevices.addAll(devices)
                 }
             }
+        }
+    }
+
+    signingConfigs {
+        named("debug") {
+            storeFile = rootDir.resolve("keystore/debug.keystore")
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs["debug"]
         }
     }
 }
@@ -148,6 +177,12 @@ dependencies {
     implementation(libs.reveal.core)
     implementation(libs.reveal.shapes)
     implementation(libs.androidx.webkit)
+    implementation(libs.haze.haze)
+    implementation(libs.haze.materials)
+    implementation(libs.timber)
+
+    implementation(libs.cmgapps.logtag.logtag)
+    ksp(libs.cmgapps.logtag.processor)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

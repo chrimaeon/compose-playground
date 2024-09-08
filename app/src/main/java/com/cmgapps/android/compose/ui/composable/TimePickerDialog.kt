@@ -6,7 +6,6 @@
 
 package com.cmgapps.android.compose.ui.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,15 +33,19 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import com.cmgapps.LogTag
+import com.cmgapps.android.compose.BuildConfig
 import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.toLocalTime
 import com.cmgapps.android.compose.ui.theme.Theme
 import kotlinx.coroutines.flow.combine
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@LogTag
 fun TimeDailer(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
@@ -69,7 +72,11 @@ fun TimeDailer(
             snapshotFlow { timePickerState.minute },
         ) { hour, minute -> hour to minute }
             .collect { (hour, minute) ->
-                Log.v("TimePickerDialog", "$hour:$minute")
+                if (BuildConfig.DEBUG) {
+                    Timber
+                        .tag(ComposableTimeDailer.LOG_TAG)
+                        .v("%02d:%02d", hour, minute)
+                }
                 hasError = hour > 12
             }
     }

@@ -7,7 +7,7 @@ class SettingsScreenShould : PaparazziTest() {
     @Test
     fun `render screen`() {
         paparazzi.snapshot {
-            SettingsScreen(backButton = {})
+            SettingsScreen(backButton = {}, buildYear = "2024")
         }
     }
 }

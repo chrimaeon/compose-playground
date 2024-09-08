@@ -30,4 +30,10 @@
     <string name="step_one">Step One</string>
     <string name="step_two">Step Two</string>
     <string name="step_three">Step Three</string>
+    <string name="haze">Haze</string>
+    <string name="pull_2_refresh">Pull 2 Refresh</string>
+    <string name="trigger_refresh">Trigger Refresh</string>
+    <string name="about">About</string>
+    <string name="cmg_mobile_apps">CMG Mobile Apps</string>
+    <string name="copyRight">© %1$s Christian Grach</string>
 </resources>

@@ -42,6 +42,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewClientCompat
 import androidx.webkit.WebViewFeature
+import com.cmgapps.android.compose.BuildConfig
 import com.cmgapps.android.compose.R
 import org.intellij.lang.annotations.Language
 import java.io.File
@@ -53,6 +54,7 @@ import kotlin.math.roundToInt
 fun SettingsScreen(
     backButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    buildYear: String = BuildConfig.BUILD_YEAR,
 ) {
     Scaffold(
         modifier = modifier,
@@ -63,7 +65,18 @@ fun SettingsScreen(
         var showOssDialog by rememberSaveable(key = "showOssDialog") { mutableStateOf(false) }
         var showOflDialog by rememberSaveable(key = "showOflDialog") { mutableStateOf(false) }
 
-        LazyColumn(modifier = Modifier.padding(contentPadding)) {
+        LazyColumn(
+            modifier = Modifier.padding(contentPadding),
+        ) {
+            item {
+                Header(title = stringResource(R.string.about))
+            }
+            item {
+                PreferenceItem(
+                    title = stringResource(R.string.cmg_mobile_apps),
+                    description = stringResource(R.string.copyRight, buildYear),
+                )
+            }
             item {
                 Header(title = stringResource(R.string.licenses))
             }

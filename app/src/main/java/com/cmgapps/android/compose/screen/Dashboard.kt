@@ -6,6 +6,7 @@
 
 package com.cmgapps.android.compose.screen
 
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -35,6 +36,7 @@ import androidx.compose.material3.adaptive.navigation.BackNavigationBehavior
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -56,6 +58,7 @@ fun ThreePaneScaffoldNavigator<*>.isDetailExpanded() =
 fun Dashboard(
     modifier: Modifier = Modifier,
     scaffoldNavigator: ThreePaneScaffoldNavigator<SubRoutes> = rememberListDetailPaneScaffoldNavigator<SubRoutes>(),
+    deepLink: Uri? = null,
 ) {
     val backBehavior =
         if (scaffoldNavigator.isListExpanded() &&
@@ -170,6 +173,34 @@ fun Dashboard(
                                 },
                             )
                         }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.haze),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.Haze,
+                                    )
+                                },
+                            )
+                        }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.pull_2_refresh),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.PullToRefresh,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -228,10 +259,45 @@ fun Dashboard(
                                 )
                             },
                         )
+
+                    SubRoutes.Haze ->
+                        HazeScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.PullToRefresh ->
+                        PullToRefreshScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
                 }
             }
         },
     )
+
+    LaunchedEffect(deepLink) {
+        deepLink?.pathSegments?.let {
+            if (it.isEmpty()) {
+                return@let
+            }
+            when (it.firstOrNull()) {
+                "cupcake" ->
+                    scaffoldNavigator.navigateTo(
+                        ListDetailPaneScaffoldRole.Detail,
+                        SubRoutes.SharedElementTransition,
+                    )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
