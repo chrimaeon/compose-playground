@@ -187,6 +187,20 @@ fun Dashboard(
                                 },
                             )
                         }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.pull_2_refresh),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.PullToRefresh,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -248,6 +262,16 @@ fun Dashboard(
 
                     SubRoutes.Haze ->
                         HazeScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.PullToRefresh ->
+                        PullToRefreshScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

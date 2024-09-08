@@ -138,4 +138,16 @@ class NavigationShould {
         composeTestRule.onNodeWithText(label).assertExists().performClick()
         composeTestRule.onNodeWithTag("HazeScreen").assertIsDisplayed()
     }
+
+    @Test
+    fun navigateToPullToRefresh() {
+        composeTestRule.setContent {
+            Theme {
+                Dashboard()
+            }
+        }
+        val label = composeTestRule.activity.getString(R.string.pull_2_refresh)
+        composeTestRule.onNodeWithText(label).assertExists().performClick()
+        composeTestRule.onNodeWithTag("PullToRefreshScreen").assertIsDisplayed()
+    }
 }
