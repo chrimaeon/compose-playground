@@ -41,6 +41,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resourceConfigurations += listOf("en")
     }
 
     buildTypes {
@@ -110,6 +112,21 @@ android {
                     targetDevices.addAll(devices)
                 }
             }
+        }
+    }
+
+    signingConfigs {
+        named("debug") {
+            storeFile = rootDir.resolve("keystore/debug.keystore")
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs["debug"]
         }
     }
 }
