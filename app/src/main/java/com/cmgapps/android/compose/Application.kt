@@ -12,6 +12,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.util.DebugLogger
 import com.google.android.material.color.DynamicColors
+import timber.log.Timber
 
 class Application :
     Application(),
@@ -30,6 +31,10 @@ class Application :
         DynamicColors.applyToActivitiesIfAvailable(this)
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true)
+        }
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
         }
     }
 }

@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version libs.versions.kotlin
     kotlin("plugin.parcelize")
+    alias(libs.plugins.ksp)
     id("com.cmgapps.gradle.ktlint")
     alias(libs.plugins.paparazzi)
     id("licenses")
@@ -89,7 +90,8 @@ android {
                         libs.versions.targetSdk
                             .get()
                             .toInt()
-                    systemImageSource = "aosp-atd"
+                    // TODO "aosp-atd" not available for api 35
+                    systemImageSource = "google"
                 }
 
                 create("pixelTabletTargetApi") {
@@ -98,7 +100,8 @@ android {
                         libs.versions.targetSdk
                             .get()
                             .toInt()
-                    systemImageSource = "aosp-atd"
+                    // TODO "aosp-atd" not available for api 35
+                    systemImageSource = "google"
                 }
             }
 
@@ -154,6 +157,10 @@ dependencies {
     implementation(libs.androidx.webkit)
     implementation(libs.haze.haze)
     implementation(libs.haze.materials)
+    implementation(libs.timber)
+
+    implementation(libs.cmgapps.logtag.logtag)
+    ksp(libs.cmgapps.logtag.processor)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
