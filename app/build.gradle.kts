@@ -46,11 +46,21 @@ android {
         resourceConfigurations += listOf("en")
     }
 
+    signingConfigs {
+        named("debug") {
+            storeFile = rootDir.resolve("keystore/debug.keystore")
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField("String", "BUILD_YEAR", """"TBD"""")
         }
         release {
+            signingConfig = signingConfigs["debug"]
+
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -117,21 +127,6 @@ android {
                     targetDevices.addAll(devices)
                 }
             }
-        }
-    }
-
-    signingConfigs {
-        named("debug") {
-            storeFile = rootDir.resolve("keystore/debug.keystore")
-        }
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs["debug"]
         }
     }
 }
