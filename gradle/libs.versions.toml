@@ -76,4 +76,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 versions = "com.github.ben-manes.versions:0.51.0"
 paparazzi = "app.cash.paparazzi:1.3.4"
 licenses = { id = "com.cmgapps.licenses", version.ref = "licenses" }
-ksp = "com.google.devtools.ksp:2.0.20-1.0.24"
+ksp = "com.google.devtools.ksp:2.0.20-1.0.25"
