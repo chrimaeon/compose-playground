@@ -24,7 +24,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.6.1" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.8.5" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.2" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.09.00" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.09.01" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
