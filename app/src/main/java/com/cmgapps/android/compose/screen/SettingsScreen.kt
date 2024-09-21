@@ -74,7 +74,7 @@ fun SettingsScreen(
             item {
                 PreferenceItem(
                     title = stringResource(R.string.cmg_mobile_apps),
-                    description = stringResource(R.string.copyRight, buildYear),
+                    description = stringResource(R.string.copyright, buildYear),
                 )
             }
             item {

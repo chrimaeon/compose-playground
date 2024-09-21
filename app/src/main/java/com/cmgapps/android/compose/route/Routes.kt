@@ -66,6 +66,10 @@ sealed class SubRoutes {
     @Parcelize
     @Serializable
     data object PullToRefresh : SubRoutes(), Parcelable
+
+    @Parcelize
+    @Serializable
+    data object Molecule : SubRoutes(), Parcelable
 }
 
 sealed class SharedElementRoutes {

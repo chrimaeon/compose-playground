@@ -42,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.route.SubRoutes
+import com.cmgapps.android.compose.screen.molecule.MoleculeScreen
 import com.cmgapps.android.compose.toLocalTime
 import kotlinx.datetime.Clock
 
@@ -201,6 +202,20 @@ fun Dashboard(
                                 },
                             )
                         }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.molecule),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.Molecule,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -272,6 +287,16 @@ fun Dashboard(
 
                     SubRoutes.PullToRefresh ->
                         PullToRefreshScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.Molecule ->
+                        MoleculeScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

@@ -175,9 +175,15 @@ dependencies {
     implementation(libs.haze.haze)
     implementation(libs.haze.materials)
     implementation(libs.timber)
+    implementation(libs.molecule)
 
     implementation(libs.cmgapps.logtag.logtag)
     ksp(libs.cmgapps.logtag.processor)
+
+    implementation(platform(libs.ktor.bom))
+    implementation(libs.ktor.client)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.serialization)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
