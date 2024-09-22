@@ -41,4 +41,5 @@
     <string name="dog_breed">Dog breed</string>
     <string name="load_another_image">Load another image of %1$s</string>
     <string name="select_breed">Select breed</string>
+    <string name="loading">Loading \u2026</string>
 </resources>
