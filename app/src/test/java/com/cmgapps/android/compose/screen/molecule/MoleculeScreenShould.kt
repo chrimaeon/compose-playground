@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 
 class MoleculeScreenShould : PaparazziTest() {
-    final lateinit var viewModel: PupperPicsViewModel
+    lateinit var viewModel: PupperPicsViewModel
 
     @Before
     fun setUp() {
