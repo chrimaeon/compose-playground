@@ -63,7 +63,7 @@ fun TimeDailer(
         )
 
     var hasError by remember {
-        mutableStateOf(false)
+        mutableStateOf(initialTime.hour > 12)
     }
 
     LaunchedEffect(timePickerState) {

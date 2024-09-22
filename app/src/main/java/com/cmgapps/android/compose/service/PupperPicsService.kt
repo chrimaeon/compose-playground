@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.cmgapps.android.compose.screen.molecule
+package com.cmgapps.android.compose.service
 
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
+import com.cmgapps.android.compose.screen.molecule.Breed
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -70,11 +71,6 @@ fun PupperPicsService(): PupperPicsService {
                 .message
     }
 }
-
-data class Breed(
-    val name: String,
-    val urlPath: String,
-)
 
 @Serializable
 private data class ListResponse(

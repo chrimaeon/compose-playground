@@ -7,7 +7,6 @@
 package com.cmgapps.android.compose.viewmodel
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.cash.molecule.RecompositionMode
@@ -16,14 +15,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.coroutines.CoroutineContext
 
-abstract class MoleculeViewModel<Event, Model> : ViewModel() {
-    private val scope = CoroutineScope(viewModelScope.coroutineContext + AndroidUiDispatcher.Main)
+abstract class MoleculeViewModel<Event, Model>(
+    mainContext: CoroutineContext,
+    mode: RecompositionMode,
+) : ViewModel() {
+    private val scope = CoroutineScope(viewModelScope.coroutineContext + mainContext)
 
     private val events = MutableSharedFlow<Event>(extraBufferCapacity = 20)
 
     val models: StateFlow<Model> by lazy(LazyThreadSafetyMode.NONE) {
-        scope.launchMolecule(mode = RecompositionMode.ContextClock) {
+        scope.launchMolecule(mode = mode) {
             models(events)
         }
     }

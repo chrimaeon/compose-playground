@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.cmgapps.android.compose.service.PupperPicsService
 import kotlinx.coroutines.flow.Flow
 
 sealed interface Event {
@@ -26,7 +27,7 @@ sealed interface Event {
 data class Model(
     val loading: Boolean,
     val breeds: List<Breed>,
-    val dropdownText: String,
+    val dropdownText: String?,
     val currentUrl: String?,
 )
 
@@ -40,20 +41,16 @@ fun pupperPicsPresenter(
     var currentUrl: String? by remember { mutableStateOf(null) }
     var fetchId: Int by remember { mutableIntStateOf(0) }
 
-    // Grab the list of breeds and sets the current selection to the first in the list.
-    // Errors are ignored in this sample.
     LaunchedEffect(Unit) {
         breeds = service.listBreeds()
         currentBreed = breeds.first()
     }
 
-    // Load a random URL for the current breed whenever it changes, or the fetchId changes.
     LaunchedEffect(currentBreed, fetchId) {
         currentUrl = null
         currentUrl = currentBreed?.let { service.randomImageUrlFor(it.urlPath) }
     }
 
-    // Handle UI events.
     LaunchedEffect(Unit) {
         events.collect { event ->
             when (event) {
@@ -66,7 +63,12 @@ fun pupperPicsPresenter(
     return Model(
         loading = currentBreed == null,
         breeds = breeds,
-        dropdownText = currentBreed?.name ?: "Select breed",
+        dropdownText = currentBreed?.name,
         currentUrl = currentUrl,
     )
 }
+
+data class Breed(
+    val name: String,
+    val urlPath: String,
+)

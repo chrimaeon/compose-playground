@@ -76,7 +76,7 @@ fun MoleculeScreen(
                         Modifier
                             .fillMaxWidth()
                             .menuAnchor(MenuAnchorType.PrimaryNotEditable),
-                    value = models.dropdownText,
+                    value = models.dropdownText ?: stringResource(R.string.select_breed),
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
@@ -109,13 +109,13 @@ fun MoleculeScreen(
                         onClickLabel =
                             stringResource(
                                 R.string.load_another_image,
-                                models.dropdownText,
+                                models.dropdownText ?: "",
                             ),
                     ) {
                         viewModel.take(Event.FetchAgain)
                     },
                 model = models.currentUrl,
-                contentDescription = stringResource(R.string.content_description_dog_image, models.dropdownText),
+                contentDescription = stringResource(R.string.content_description_dog_image, models.dropdownText ?: ""),
             )
         }
     }

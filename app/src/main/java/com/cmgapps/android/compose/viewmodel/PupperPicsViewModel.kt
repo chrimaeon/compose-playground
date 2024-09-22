@@ -7,18 +7,23 @@
 package com.cmgapps.android.compose.viewmodel
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import app.cash.molecule.RecompositionMode
 import com.cmgapps.android.compose.screen.molecule.Event
 import com.cmgapps.android.compose.screen.molecule.Model
-import com.cmgapps.android.compose.screen.molecule.PupperPicsService
 import com.cmgapps.android.compose.screen.molecule.pupperPicsPresenter
+import com.cmgapps.android.compose.service.PupperPicsService
 import kotlinx.coroutines.flow.Flow
+import kotlin.coroutines.CoroutineContext
 
 class PupperPicsViewModel(
     private val service: PupperPicsService,
-) : MoleculeViewModel<Event, Model>() {
+    mainContext: CoroutineContext = AndroidUiDispatcher.Main,
+    mode: RecompositionMode = RecompositionMode.ContextClock,
+) : MoleculeViewModel<Event, Model>(mainContext, mode) {
     @Composable
     override fun models(events: Flow<Event>): Model = pupperPicsPresenter(events, service)
 
