@@ -150,4 +150,30 @@ class NavigationShould {
         composeTestRule.onNodeWithText(label).assertExists().performClick()
         composeTestRule.onNodeWithTag("PullToRefreshScreen").assertIsDisplayed()
     }
+
+    @Test
+    fun navigateToMolecule() {
+        composeTestRule.setContent {
+            Theme {
+                Dashboard()
+            }
+        }
+
+        val lable = composeTestRule.activity.getString(R.string.molecule)
+        composeTestRule.onNodeWithText(lable).assertExists().performClick()
+        composeTestRule.onNodeWithTag("MoleculeScreen").assertIsDisplayed()
+    }
+
+    @Test
+    fun navigateToAnimateItem() {
+        composeTestRule.setContent {
+            Theme {
+                Dashboard()
+            }
+        }
+
+        val lable = composeTestRule.activity.getString(R.string.animate_item)
+        composeTestRule.onNodeWithText(lable).assertExists().performClick()
+        composeTestRule.onNodeWithTag("AnimateItemScreen").assertIsDisplayed()
+    }
 }

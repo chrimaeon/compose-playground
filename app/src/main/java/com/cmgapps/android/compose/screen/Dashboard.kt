@@ -216,6 +216,20 @@ fun Dashboard(
                                 },
                             )
                         }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.animate_item),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.AnimateItem,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -297,6 +311,16 @@ fun Dashboard(
 
                     SubRoutes.Molecule ->
                         MoleculeScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.AnimateItem ->
+                        AnimateItemScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

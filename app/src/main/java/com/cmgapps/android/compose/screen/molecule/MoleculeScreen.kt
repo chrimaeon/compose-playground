@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -60,7 +61,7 @@ fun MoleculeScreen(
     backButton: @Composable () -> Unit,
 ) {
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.testTag("MoleculeScreen"),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.molecule)) },

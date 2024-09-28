@@ -70,6 +70,10 @@ sealed class SubRoutes {
     @Parcelize
     @Serializable
     data object Molecule : SubRoutes(), Parcelable
+
+    @Parcelize
+    @Serializable
+    data object AnimateItem : SubRoutes(), Parcelable
 }
 
 sealed class SharedElementRoutes {

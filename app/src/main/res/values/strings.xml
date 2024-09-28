@@ -42,4 +42,6 @@
     <string name="load_another_image">Load another image of %1$s</string>
     <string name="select_breed">Select breed</string>
     <string name="loading">Loading \u2026</string>
+    <string name="animate_item">Animate Item</string>
+    <string name="content_description_add_item_to_list">Add item to list</string>
 </resources>
