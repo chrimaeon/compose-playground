@@ -4,16 +4,16 @@ compileSdk = "35"
 targetSdk = "35"
 minSdk = "26"
 
-agp = "8.6.1"
+agp = "8.7.0"
 kotlin = "2.0.20"
-navigation = "2.8.1"
+navigation = "2.8.2"
 reveal = "3.0.8"
 licenses = "4.8.0"
-ktlint-compose = "0.4.12"
-haze = "0.9.0-beta01"
+ktlint-compose = "0.4.15"
+haze = "0.9.0-beta02"
 logtag = "1.1.0"
 
-gradle = "8.10"
+gradle = "8.10.2"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -24,7 +24,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.6.1" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.8.6" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.2" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.09.02" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2024.09.03" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -38,11 +38,11 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-compose", version.ref = "navigation" }
 androidx-adaptive-navigation-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation-android", version = "1.0.0" }
 androidx-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6"
-androidx-compose-animation = "androidx.compose.animation:animation:1.7.2"
+androidx-compose-animation = "androidx.compose.animation:animation:1.7.3"
 androidx-palette = "androidx.palette:palette:1.0.0"
-androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.12.0" }
+androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.12.1" }
 
-junit-bom = { module = "org.junit:junit-bom", version = "5.11.1" }
+junit-bom = { module = "org.junit:junit-bom", version = "5.11.2" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }

@@ -133,8 +133,8 @@ fun MoleculeScreen(
 @Composable
 private fun Content(
     model: Model,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var imageLoading by remember { mutableStateOf(true) }
 

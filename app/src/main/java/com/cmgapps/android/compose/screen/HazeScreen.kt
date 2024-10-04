@@ -66,8 +66,10 @@ fun HazeScreen(
                 colors = TopAppBarDefaults.largeTopAppBarColors(Color.Transparent),
                 modifier =
                     Modifier
-                        .hazeChild(state = hazeState)
-                        .fillMaxWidth(),
+                        .hazeChild(
+                            state = hazeState,
+                            style = HazeMaterials.thin(),
+                        ).fillMaxWidth(),
                 navigationIcon = backButton,
             )
         },
@@ -77,7 +79,6 @@ fun HazeScreen(
                 Modifier
                     .haze(
                         state = hazeState,
-                        style = HazeMaterials.thin(),
                     ),
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(top = innerPadding.calculateTopPadding()),
