@@ -54,8 +54,16 @@ jobs:
   connectedAndroidAppTest:
     name: Run Android Instrumentation Tests
     needs: checkAndUnitTest
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
+      # needed to run managed devices
+      # see https://issuetracker.google.com/issues/287312019
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
 
       - name: Checkout
         uses: actions/checkout@v4
