@@ -1,6 +1,7 @@
 [versions]
 buildTools = "35.0.0"
 compileSdk = "35"
+# ⚠️ Update github action emulators ⚠️
 targetSdk = "35"
 minSdk = "26"
 
