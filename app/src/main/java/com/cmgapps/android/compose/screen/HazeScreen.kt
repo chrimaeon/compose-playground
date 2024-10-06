@@ -73,7 +73,7 @@ fun HazeScreen(
                 navigationIcon = backButton,
             )
         },
-    ) { innerPadding ->
+    ) { contentPadding ->
         LazyVerticalGrid(
             modifier =
                 Modifier
@@ -81,7 +81,7 @@ fun HazeScreen(
                         state = hazeState,
                     ),
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(top = innerPadding.calculateTopPadding()),
+            contentPadding = PaddingValues(top = contentPadding.calculateTopPadding()),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {

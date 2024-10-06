@@ -68,7 +68,7 @@ fun MoleculeScreen(
                 navigationIcon = backButton,
             )
         },
-    ) { innerPadding ->
+    ) { contentPadding ->
 
         val model by viewModel.models.collectAsStateWithLifecycle()
         var expanded by remember { mutableStateOf(false) }
@@ -76,7 +76,7 @@ fun MoleculeScreen(
         Column(
             modifier =
                 Modifier
-                    .padding(innerPadding)
+                    .padding(contentPadding)
                     .padding(16.dp)
                     .fillMaxSize(),
         ) {

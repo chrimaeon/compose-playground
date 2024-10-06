@@ -59,9 +59,9 @@ fun AnimateItemScreen(
                 },
             )
         },
-    ) { innerPadding ->
+    ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(contentPadding),
         ) {
             items(items = items) { item ->
                 ListItem(

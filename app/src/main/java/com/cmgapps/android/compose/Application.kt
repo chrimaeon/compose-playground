@@ -11,6 +11,8 @@ import android.webkit.WebView
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.util.DebugLogger
+import com.google.android.material.color.ColorContrast
+import com.google.android.material.color.ColorContrastOptions
 import com.google.android.material.color.DynamicColors
 import timber.log.Timber
 
@@ -28,7 +30,21 @@ class Application :
 
     override fun onCreate() {
         super.onCreate()
-        DynamicColors.applyToActivitiesIfAvailable(this)
+        when {
+            DynamicColors.isDynamicColorAvailable() ->
+                DynamicColors.applyToActivitiesIfAvailable(this)
+
+            ColorContrast.isContrastAvailable() ->
+                ColorContrast.applyToActivitiesIfAvailable(
+                    this,
+                    ColorContrastOptions
+                        .Builder()
+                        .setMediumContrastThemeOverlay(R.style.ThemeOverlay_AppTheme_MediumContrast)
+                        .setHighContrastThemeOverlay(R.style.ThemeOverlay_AppTheme_HighContrast)
+                        .build(),
+                )
+        }
+
         if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
