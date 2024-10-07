@@ -11,7 +11,7 @@ navigation = "2.8.2"
 reveal = "3.0.8"
 licenses = "4.8.0"
 ktlint-compose = "0.4.15"
-haze = "0.9.0-beta02"
+haze = "0.9.0-beta03"
 logtag = "1.1.0"
 
 gradle = "8.10.2"
