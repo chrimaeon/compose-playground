@@ -14,7 +14,7 @@ fun Project.configureKtlint() {
     tasks {
         val inputFiles =
             fileTree("src") {
-                include("src/**/*.kt")
+                include("**/*.kt")
             }
         val outputDir = layout.buildDirectory.dir("reports")
 
