@@ -7,7 +7,7 @@ minSdk = "26"
 
 agp = "8.7.2"
 kotlin = "2.0.21"
-navigation = "2.8.2"
+navigation = "2.8.4"
 reveal = "3.1.1"
 licenses = "4.8.0"
 ktlint-compose = "0.4.15"
