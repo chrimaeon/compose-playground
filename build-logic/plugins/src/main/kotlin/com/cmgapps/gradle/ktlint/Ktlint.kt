@@ -2,10 +2,12 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.attributes.Bundling
 import org.gradle.api.tasks.JavaExec
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.withType
 
 @Suppress("UnstableApiUsage")
 fun Project.configureKtlint() {
@@ -16,11 +18,11 @@ fun Project.configureKtlint() {
             fileTree("src") {
                 include("**/*.kt")
             }
-        val outputDir = layout.buildDirectory.dir("reports")
+        val outputDir = layout.buildDirectory.dir("reports/ktlint")
 
         register("ktlintFormat", JavaExec::class.java) {
             inputs.files(inputFiles)
-            outputs.dir(outputDir)
+            inputs.dir(outputDir)
 
             group = "Formatting"
             description = "Fix Kotlin code style deviations."
@@ -34,6 +36,8 @@ fun Project.configureKtlint() {
             register("ktlint", JavaExec::class.java) {
                 inputs.files(inputFiles)
                 outputs.dir(outputDir)
+
+                dependsOn(withType<Test>())
 
                 group = "Verification"
                 description = "Check Kotlin code style."
@@ -54,12 +58,20 @@ fun Project.configureKtlint() {
 
     val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
     dependencies {
-        ktlintConfiguration(libs.findLibrary("ktlint-cli").orElseThrow()) {
+        ktlintConfiguration(
+            libs.findLibrary("ktlint-cli").orElseThrow {
+                NoSuchElementException("ktlint-cli not found in catalog")
+            },
+        ) {
             attributes {
                 attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
             }
         }
-        ktlintConfiguration(libs.findLibrary("ktlint-compose").orElseThrow()) {
+        ktlintConfiguration(
+            libs.findLibrary("ktlint-compose").orElseThrow {
+                NoSuchElementException("ktlint-compose not found in catalog")
+            },
+        ) {
             attributes {
                 attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
             }

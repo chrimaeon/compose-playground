@@ -44,4 +44,6 @@
     <string name="loading">Loading \u2026</string>
     <string name="animate_item">Animate Item</string>
     <string name="content_description_add_item_to_list">Add item to list</string>
+    <string name="textfield_transformation">TextField Transformation</string>
+    <string name="invalid_input">Please enter at least %d digits</string>
 </resources>

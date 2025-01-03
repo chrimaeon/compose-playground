@@ -230,6 +230,20 @@ fun Dashboard(
                                 },
                             )
                         }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            NavigationItem(
+                                title = stringResource(R.string.textfield_transformation),
+                                onClick = {
+                                    scaffoldNavigator.navigateTo(
+                                        ListDetailPaneScaffoldRole.Detail,
+                                        SubRoutes.TextFieldTransformation,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -321,6 +335,16 @@ fun Dashboard(
 
                     SubRoutes.AnimateItem ->
                         AnimateItemScreen(
+                            backButton = {
+                                BackButton(
+                                    scaffoldNavigator = scaffoldNavigator,
+                                    backBehavior = backBehavior,
+                                )
+                            },
+                        )
+
+                    SubRoutes.TextFieldTransformation ->
+                        TextFieldTransformationScreen(
                             backButton = {
                                 BackButton(
                                     scaffoldNavigator = scaffoldNavigator,

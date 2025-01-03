@@ -74,6 +74,10 @@ sealed class SubRoutes {
     @Parcelize
     @Serializable
     data object AnimateItem : SubRoutes(), Parcelable
+
+    @Parcelize
+    @Serializable
+    data object TextFieldTransformation : SubRoutes(), Parcelable
 }
 
 sealed class SharedElementRoutes {

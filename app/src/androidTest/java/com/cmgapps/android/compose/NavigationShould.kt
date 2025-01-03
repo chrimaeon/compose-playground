@@ -176,4 +176,17 @@ class NavigationShould {
         composeTestRule.onNodeWithText(lable).assertExists().performClick()
         composeTestRule.onNodeWithTag("AnimateItemScreen").assertIsDisplayed()
     }
+
+    @Test
+    fun navigateToTextFieldTransformation() {
+        composeTestRule.setContent {
+            Theme {
+                Dashboard()
+            }
+        }
+
+        val lable = composeTestRule.activity.getString(R.string.textfield_transformation)
+        composeTestRule.onNodeWithText(lable).assertExists().performClick()
+        composeTestRule.onNodeWithTag("TextFieldTransformationScreen").assertIsDisplayed()
+    }
 }

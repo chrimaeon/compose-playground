@@ -107,8 +107,7 @@ android {
                         libs.versions.targetSdk
                             .get()
                             .toInt()
-                    // TODO "aosp-atd" not available for api 35
-                    systemImageSource = "google"
+                    systemImageSource = "aosp-atd"
                 }
 
                 create("pixelTabletTargetApi") {
@@ -117,8 +116,7 @@ android {
                         libs.versions.targetSdk
                             .get()
                             .toInt()
-                    // TODO "aosp-atd" not available for api 35
-                    systemImageSource = "google"
+                    systemImageSource = "aosp-atd"
                 }
             }
 
