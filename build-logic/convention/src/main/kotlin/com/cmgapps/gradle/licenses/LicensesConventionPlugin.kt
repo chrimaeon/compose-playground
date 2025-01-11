@@ -7,6 +7,8 @@
 package com.cmgapps.gradle.licenses
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.gradle.AppPlugin
+import com.cmgapps.license.LicensesPlugin
 import com.cmgapps.license.LicensesTask
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
@@ -16,33 +18,36 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.register
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 
 @Suppress("unused")
 class LicensesConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager) {
-                apply("com.android.application")
-                apply("com.cmgapps.licenses")
-            }
+            apply<AppPlugin>()
+            apply<LicensesPlugin>()
 
-            extensions.configure(ApplicationAndroidComponentsExtension::class.java) {
+            extensions.configure<ApplicationAndroidComponentsExtension> {
                 onVariants { variant ->
                     val licenseTask =
-                        project.tasks.named<LicensesTask>("license${variant.name.capitalize()}Report")
+                        project.tasks.named<LicensesTask>("license${variant.name.uppercaseFirstChar()}Report")
 
                     val copyLicense =
-                        project.tasks.register(
-                            "copyLicense${variant.name.capitalize()}Report",
-                            CopyLicenseTask::class.java,
+                        project.tasks.register<CopyLicenseTask>(
+                            "copyLicense${variant.name.uppercaseFirstChar()}Report",
                         ) {
+                            outputs.upToDateWhen { false }
+
                             licenseFile.set(
-                                licenseTask
-                                    .get()
-                                    .reports.html.destination,
+                                licenseTask.map {
+                                    it.reports.html.outputLocation
+                                        .get()
+                                },
                             )
-                            dependsOn(licenseTask)
                         }
 
                     variant.sources.assets?.addGeneratedSourceDirectory(
@@ -54,8 +59,6 @@ class LicensesConventionPlugin : Plugin<Project> {
         }
     }
 }
-
-fun String.capitalize() = replaceFirstChar { it.uppercase() }
 
 abstract class CopyLicenseTask : DefaultTask() {
     @get:InputFile
