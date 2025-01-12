@@ -5,13 +5,13 @@ compileSdk = "35"
 targetSdk = "35"
 minSdk = "26"
 
-agp = "8.7.3"
+agp = "8.8.0"
 kotlin = "2.1.0"
 navigation = "2.8.5"
 reveal = "3.1.1"
 licenses = "5.0.0"
 ktlint-compose = "0.4.22"
-haze = "1.1.1"
+haze = "1.2.0"
 logtag = "1.1.0"
 
 gradle = "8.12"
@@ -51,7 +51,7 @@ junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }
 
 coil-compose = "io.coil-kt:coil-compose:2.7.0"
 
-kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3"
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
 kotlinx-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1"
 
