@@ -147,6 +147,21 @@ tasks {
     }
 }
 
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        val hamcrest =
+            libs.hamcrest
+                .get()
+                .run {
+                    "$module:$version"
+                }
+        substitute((module("org.hamcrest:hamcrest-core:1.3")))
+            .using(module(hamcrest))
+        substitute((module("org.hamcrest:hamcrest-library:1.3")))
+            .using(module(hamcrest))
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -196,6 +211,8 @@ dependencies {
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.hamcrest)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.navigation.testing)
 }

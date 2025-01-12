@@ -46,7 +46,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -65,6 +65,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -111,38 +112,55 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
         val cupcakes =
             remember { mutableStateListOf<Cupcake>() }
 
-        LaunchedEffect(Unit) {
+        DisposableEffect(Unit) {
             cupcakes.addAll(List(8) { Cupcake(it) }.shuffled())
+
+            onDispose { }
         }
 
-        val imageBoundsTransform =
-            BoundsTransform { _, _ ->
+        SharedElementNavHost(
+            navController = navController,
+            cupcakes = cupcakes,
+            imageBoundsTransform = { _, _ ->
                 spring(
                     dampingRatio = Spring.DampingRatioLowBouncy,
                     stiffness = Spring.StiffnessMediumLow,
                 )
-            }
+            },
+        )
+    }
+}
 
-        NavHost(navController = navController, startDestination = SharedElementRoutes.Main) {
-            composable<SharedElementRoutes.Main> {
-                MainContent(
-                    cupcakes = cupcakes,
-                    onShowDetails = { id -> navController.navigate(SharedElementRoutes.Details(id)) },
-                    sharedTransitionScope = this@SharedTransitionLayout,
-                    animatedVisibilityScope = this@composable,
-                    imageBoundsTransform = imageBoundsTransform,
-                )
-            }
-            composable<SharedElementRoutes.Details> { backstack ->
-                val details = backstack.toRoute<SharedElementRoutes.Details>()
-                DetailsContent(
-                    cupcake = cupcakes.first { it.id == details.id },
-                    onBack = navController::popBackStack,
-                    sharedTransitionScope = this@SharedTransitionLayout,
-                    animatedVisibilityScope = this@composable,
-                    imageBoundsTransform = imageBoundsTransform,
-                )
-            }
+@OptIn(ExperimentalSharedTransitionApi::class)
+@VisibleForTesting
+@Composable
+fun SharedTransitionScope.SharedElementNavHost(
+    navController: NavHostController,
+    cupcakes: List<Cupcake>,
+    imageBoundsTransform: BoundsTransform,
+) {
+    NavHost(
+        navController = navController,
+        startDestination = SharedElementRoutes.Main,
+    ) {
+        composable<SharedElementRoutes.Main> {
+            MainContent(
+                cupcakes = cupcakes,
+                onShowDetails = { id -> navController.navigate(SharedElementRoutes.Details(id)) },
+                sharedTransitionScope = this@SharedElementNavHost,
+                animatedVisibilityScope = this@composable,
+                imageBoundsTransform = imageBoundsTransform,
+            )
+        }
+        composable<SharedElementRoutes.Details> { backstack ->
+            val details = backstack.toRoute<SharedElementRoutes.Details>()
+            DetailsContent(
+                cupcake = cupcakes.first { it.id == details.id },
+                onBack = navController::popBackStack,
+                sharedTransitionScope = this@SharedElementNavHost,
+                animatedVisibilityScope = this@composable,
+                imageBoundsTransform = imageBoundsTransform,
+            )
         }
     }
 }
