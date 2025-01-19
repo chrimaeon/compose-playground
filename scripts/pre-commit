@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # link with `ln -s -f ../../scripts/pre-commit .git/hooks/pre-commit`
 
