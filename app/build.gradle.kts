@@ -155,7 +155,7 @@ configurations.all {
                 .run {
                     "$module:$version"
                 }
-        substitute((module("org.hamcrest:hamcrest-core:1.3")))
+        substitute((module("org.hamcrest:hamcrest-core:3.0")))
             .using(module(hamcrest))
         substitute((module("org.hamcrest:hamcrest-library:1.3")))
             .using(module(hamcrest))
