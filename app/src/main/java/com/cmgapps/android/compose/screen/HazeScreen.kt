@@ -41,8 +41,8 @@ import com.cmgapps.android.compose.ui.theme.primaryContainerLight
 import com.cmgapps.android.compose.ui.theme.secondaryContainerDark
 import com.cmgapps.android.compose.ui.theme.secondaryContainerLight
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import kotlin.random.Random
@@ -66,7 +66,7 @@ fun HazeScreen(
                 colors = TopAppBarDefaults.largeTopAppBarColors(Color.Transparent),
                 modifier =
                     Modifier
-                        .hazeChild(
+                        .hazeEffect(
                             state = hazeState,
                             style = HazeMaterials.thin(),
                         ).fillMaxWidth(),
@@ -77,7 +77,7 @@ fun HazeScreen(
         LazyVerticalGrid(
             modifier =
                 Modifier
-                    .haze(
+                    .hazeSource(
                         state = hazeState,
                     ),
             columns = GridCells.Fixed(3),
