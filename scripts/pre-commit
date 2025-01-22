@@ -12,7 +12,7 @@ fi
 SCRIPT_PATH=$(realpath "$0")
 BASE_DIR=$(dirname "$SCRIPT_PATH")
 
-FILES=$(git diff --cached --name-only | grep -i -E "\.kts?" || true)
+FILES=$(git diff --cached --name-only --diff-filter=d | grep -i -E "\.kts?" || true)
 
 if [ -n "$FILES" ]
 then
