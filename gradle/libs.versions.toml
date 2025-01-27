@@ -6,7 +6,7 @@ targetSdk = "35"
 minSdk = "26"
 
 agp = "8.8.0"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 navigation = "2.8.5"
 reveal = "3.2.0"
 licenses = "5.0.0"
