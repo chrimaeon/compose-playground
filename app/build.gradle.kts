@@ -122,7 +122,7 @@ android {
 
             groups {
                 create("allDevices") {
-                    targetDevices.addAll(devices)
+                    targetDevices.addAll(allDevices)
                 }
             }
         }
