@@ -6,6 +6,8 @@ import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.window.core.layout.WindowSizeClass
 import app.cash.paparazzi.DeviceConfig
 import com.android.resources.ScreenOrientation
@@ -29,6 +31,7 @@ class DashboardShould : PaparazziTest() {
         )
 
         paparazzi.snapshot {
+            val scope = rememberCoroutineScope()
             val scaffoldNavigator =
                 rememberListDetailPaneScaffoldNavigator<SubRoutes>(
                     // Hack for ListDetailPane not getting the correct values
@@ -42,8 +45,9 @@ class DashboardShould : PaparazziTest() {
                         ),
                     ),
                 )
-            scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, SubRoutes.ChipTextField)
-
+            LaunchedEffect(Unit) {
+                scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, SubRoutes.ChipTextField)
+            }
             Dashboard(scaffoldNavigator = scaffoldNavigator)
         }
     }

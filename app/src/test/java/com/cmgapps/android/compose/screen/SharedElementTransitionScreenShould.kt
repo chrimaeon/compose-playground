@@ -20,7 +20,9 @@ class SharedElementTransitionScreenShould : PaparazziTest() {
                             override val viewModelStore = ViewModelStore()
                         },
                 ) {
-                    SharedElementTransitionScreen()
+                    SharedElementTransitionScreen(
+                        backButton = {},
+                    )
                 }
             }
     }

@@ -45,6 +45,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -58,9 +59,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
@@ -103,7 +106,10 @@ suspend fun AsyncImagePainter.State.Success.createPalette(): Palette? =
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
+fun SharedElementTransitionScreen(
+    modifier: Modifier = Modifier,
+    backButton: @Composable () -> Unit,
+) {
     SharedTransitionLayout(
         modifier = modifier,
     ) {
@@ -127,6 +133,7 @@ fun SharedElementTransitionScreen(modifier: Modifier = Modifier) {
                     stiffness = Spring.StiffnessMediumLow,
                 )
             },
+            backButton = backButton,
         )
     }
 }
@@ -138,6 +145,7 @@ fun SharedTransitionScope.SharedElementNavHost(
     navController: NavHostController,
     cupcakes: List<Cupcake>,
     imageBoundsTransform: BoundsTransform,
+    backButton: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -150,6 +158,7 @@ fun SharedTransitionScope.SharedElementNavHost(
                 sharedTransitionScope = this@SharedElementNavHost,
                 animatedVisibilityScope = this@composable,
                 imageBoundsTransform = imageBoundsTransform,
+                backButton = backButton,
             )
         }
         composable<SharedElementRoutes.Details> { backstack ->
@@ -167,7 +176,7 @@ fun SharedTransitionScope.SharedElementNavHost(
 
 @SuppressLint("RestrictedApi")
 @VisibleForTesting
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent(
     cupcakes: List<Cupcake>,
@@ -175,13 +184,23 @@ fun MainContent(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     imageBoundsTransform: BoundsTransform,
+    backButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier =
             modifier
                 .fillMaxSize()
-                .semantics { testTag = "SharedElementTransitionMainContent" },
+                .semantics { testTag = "SharedElementTransitionMainContent" }
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.shared_element_transition)) },
+                navigationIcon = backButton,
+                scrollBehavior = scrollBehavior,
+            )
+        },
     ) { contentPadding ->
         LazyColumn(
             modifier =
