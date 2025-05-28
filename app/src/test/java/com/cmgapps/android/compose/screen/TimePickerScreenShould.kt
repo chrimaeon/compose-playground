@@ -10,18 +10,19 @@ import org.junit.Test
 class TimePickerScreenShould : PaparazziTest() {
     @Test
     fun `render time picker`() {
+        val viewModel =
+            TimePickerViewModel(
+                clock =
+                    object :
+                        Clock {
+                        override fun now() = Instant.fromEpochMilliseconds(0)
+                    },
+            )
         paparazzi.snapshot {
             TimePickerScreen(
                 backButton = {},
                 initialTime = LocalTime(13, 12),
-                viewModel =
-                    TimePickerViewModel(
-                        clock =
-                            object :
-                                Clock {
-                                override fun now() = Instant.fromEpochMilliseconds(0)
-                            },
-                    ),
+                viewModel = viewModel,
             )
         }
     }

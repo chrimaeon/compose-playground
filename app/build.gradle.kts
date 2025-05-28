@@ -42,8 +42,11 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-        resourceConfigurations += listOf("en")
+    androidResources {
+        @Suppress("UnstableApiUsage")
+        localeFilters += listOf("en")
     }
 
     signingConfigs {
@@ -203,6 +206,7 @@ dependencies {
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
     testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly(libs.junit.vintage.engine)
     testImplementation(libs.hamcrest)
