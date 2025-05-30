@@ -15,7 +15,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
-import io.ktor.http.path
+import io.ktor.http.appendPathSegments
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 
@@ -25,13 +25,13 @@ interface PupperPicsService {
     suspend fun randomImageUrlFor(breed: String): String
 }
 
-fun PupperPicsService(): PupperPicsService {
+fun PupperPicsService(serverBaseUrl: String): PupperPicsService {
     val api =
         HttpClient(OkHttp) {
             engine {
             }
             defaultRequest {
-                url("https://dog.ceo/api/")
+                url(serverBaseUrl)
             }
 
             install(ContentNegotiation) {
@@ -44,7 +44,7 @@ fun PupperPicsService(): PupperPicsService {
             api
                 .get {
                     url {
-                        path("breeds/list/all")
+                        appendPathSegments("breeds", "list", "all")
                     }
                 }.body<ListResponse>()
                 .message
@@ -65,7 +65,7 @@ fun PupperPicsService(): PupperPicsService {
             api
                 .get {
                     url {
-                        path("breed/$breed/images/random")
+                        appendPathSegments("breed", breed, "images", "random")
                     }
                 }.body<ImageResponse>()
                 .message

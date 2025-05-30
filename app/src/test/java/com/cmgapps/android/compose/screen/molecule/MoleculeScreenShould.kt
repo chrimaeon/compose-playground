@@ -19,6 +19,7 @@ class MoleculeScreenShould : PaparazziTest() {
         paparazzi.snapshot {
             MoleculeScreen(
                 viewModel = viewModel,
+                serverBaseUrl = "http://localhost:8080",
                 backButton = { },
             )
         }

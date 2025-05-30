@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
@@ -56,9 +57,17 @@ import com.cmgapps.android.compose.viewmodel.PupperPicsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoleculeScreen(
-    modifier: Modifier = Modifier,
-    viewModel: PupperPicsViewModel = viewModel(factory = PupperPicsViewModel.Factory),
+    serverBaseUrl: String,
     backButton: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PupperPicsViewModel =
+        viewModel(
+            factory = PupperPicsViewModel.Factory,
+            extras =
+                MutableCreationExtras().apply {
+                    set(PupperPicsViewModel.SERVER_BASE_URL, serverBaseUrl)
+                },
+        ),
 ) {
     Scaffold(
         modifier = modifier.testTag("MoleculeScreen"),

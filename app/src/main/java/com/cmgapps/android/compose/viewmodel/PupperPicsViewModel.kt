@@ -9,6 +9,7 @@ package com.cmgapps.android.compose.viewmodel
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.AndroidUiDispatcher
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.cash.molecule.RecompositionMode
@@ -28,11 +29,13 @@ class PupperPicsViewModel(
     override fun models(events: Flow<Event>): Model = pupperPicsPresenter(events, service)
 
     companion object {
+        val SERVER_BASE_URL = object : CreationExtras.Key<String> {}
+
         val Factory: ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
                     PupperPicsViewModel(
-                        PupperPicsService(),
+                        PupperPicsService(this[SERVER_BASE_URL] ?: error("No server base url")),
                     )
                 }
             }

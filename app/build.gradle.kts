@@ -88,7 +88,6 @@ android {
         }
     }
 
-    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests.all { test ->
             test.useJUnitPlatform()
@@ -97,6 +96,7 @@ android {
             }
         }
 
+        @Suppress("UnstableApiUsage")
         managedDevices {
             localDevices {
                 create("pixel2api27") {
@@ -219,4 +219,5 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 }

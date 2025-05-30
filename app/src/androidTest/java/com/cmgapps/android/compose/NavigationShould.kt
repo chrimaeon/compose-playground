@@ -15,6 +15,12 @@ import androidx.compose.ui.test.printToLog
 import com.cmgapps.android.compose.screen.Dashboard
 import com.cmgapps.android.compose.screen.TimePickerScreen
 import com.cmgapps.android.compose.ui.theme.Theme
+import okhttp3.mockwebserver.Dispatcher
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -22,6 +28,18 @@ import org.junit.Test
 class NavigationShould {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+
+    lateinit var mockWebServer: MockWebServer
+
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
 
     @Test
     fun navigateToChipTextField() {
@@ -139,14 +157,56 @@ class NavigationShould {
 
     @Test
     fun navigateToMolecule() {
+        mockWebServer.dispatcher =
+            object : Dispatcher() {
+                override fun dispatch(request: RecordedRequest): MockResponse =
+                    when (request.path) {
+                        "/api/breeds/list/all" -> {
+                            MockResponse()
+                                .addHeader("Content-Type", "application/json; charset=utf-8")
+                                .setBody(
+                                    """
+                                    {
+                                        "message": {
+                                            "bulldog": [],
+                                            "labrador": [],
+                                            "poodle": []
+                                        },
+                                        "status": "success"
+                                    }
+                                    """.trimIndent(),
+                                )
+                        }
+
+                        "/api/breed/bulldog/images/random" -> {
+                            MockResponse()
+                                .addHeader("Content-Type", "application/json; charset=utf-8")
+                                .setBody(
+                                    """
+                                    {
+                                        "message": "https://example.com/bulldog.jpg",
+                                        "status": "success"
+                                    }
+                                    """.trimIndent(),
+                                )
+                        }
+
+                        else -> MockResponse().setResponseCode(404)
+                    }
+            }
+
+        mockWebServer.start()
+
+        val baseUrl = mockWebServer.url("/api/").toString()
+
         composeTestRule.setContent {
             Theme {
-                Dashboard()
+                Dashboard(dogCeoServerBaseUrl = baseUrl)
             }
         }
 
-        val lable = composeTestRule.activity.getString(R.string.molecule)
-        composeTestRule.onNodeWithText(lable).assertExists().performClick()
+        val label = composeTestRule.activity.getString(R.string.molecule)
+        composeTestRule.onNodeWithText(label).assertExists().performClick()
         composeTestRule.onNodeWithTag("MoleculeScreen").assertIsDisplayed()
     }
 

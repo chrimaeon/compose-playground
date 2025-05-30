@@ -43,6 +43,7 @@ class SharedElementTransitionScreenShould {
                             visibilityThreshold = Rect.VisibilityThreshold,
                         )
                     },
+                    backButton = {},
                 )
             }
         }

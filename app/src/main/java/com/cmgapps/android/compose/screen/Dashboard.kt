@@ -82,6 +82,7 @@ fun Dashboard(
     modifier: Modifier = Modifier,
     scaffoldNavigator: ThreePaneScaffoldNavigator<SubRoutes> = rememberListDetailPaneScaffoldNavigator<SubRoutes>(),
     deepLink: Uri? = null,
+    dogCeoServerBaseUrl: String = "https://dog.ceo/api/",
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -260,6 +261,7 @@ fun Dashboard(
                                         },
                                     )
                                 },
+                                serverBaseUrl = dogCeoServerBaseUrl,
                             )
 
                         SubRoutes.AnimateItem ->
