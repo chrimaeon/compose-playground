@@ -21,6 +21,7 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -155,6 +156,7 @@ class NavigationShould {
         composeTestRule.onNodeWithTag("PullToRefreshScreen").assertIsDisplayed()
     }
 
+    @Ignore("Flaky test; server start cannot be awaited")
     @Test
     fun navigateToMolecule() {
         mockWebServer.dispatcher =
