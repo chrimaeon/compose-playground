@@ -44,7 +44,7 @@ androidx-compose-animation = "androidx.compose.animation:animation:1.8.2"
 androidx-palette = "androidx.palette:palette:1.0.0"
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.13.0" }
 
-junit-bom = { module = "org.junit:junit-bom", version = "5.12.2" }
+junit-bom = { module = "org.junit:junit-bom", version = "5.13.0" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
