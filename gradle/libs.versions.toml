@@ -1,17 +1,17 @@
 [versions]
-buildTools = "35.0.1"
-compileSdk = "35"
+buildTools = "36.0.0"
+compileSdk = "36"
 # ⚠️ Update github action emulators ⚠️
-targetSdk = "35"
+targetSdk = "36"
 minSdk = "26"
 
-agp = "8.10.0"
+agp = "8.10.1"
 kotlin = "2.1.21"
 navigation = "2.9.0"
-reveal = "3.2.1"
+reveal = "3.2.2"
 licenses = "5.0.0"
 ktlint-compose = "0.4.22"
-haze = "1.6.2"
+haze = "1.6.3"
 logtag = "1.1.0"
 
 gradle = "8.14.1"
@@ -44,7 +44,7 @@ androidx-compose-animation = "androidx.compose.animation:animation:1.8.2"
 androidx-palette = "androidx.palette:palette:1.0.0"
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.13.0" }
 
-junit-bom = { module = "org.junit:junit-bom", version = "5.12.2" }
+junit-bom = { module = "org.junit:junit-bom", version = "5.13.0" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
