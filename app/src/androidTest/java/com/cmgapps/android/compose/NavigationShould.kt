@@ -19,8 +19,6 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
-import org.junit.After
-import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
@@ -29,18 +27,6 @@ import org.junit.Test
 class NavigationShould {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    lateinit var mockWebServer: MockWebServer
-
-    @Before
-    fun setup() {
-        mockWebServer = MockWebServer()
-    }
-
-    @After
-    fun tearDown() {
-        mockWebServer.shutdown()
-    }
 
     @Test
     fun navigateToChipTextField() {
@@ -159,41 +145,44 @@ class NavigationShould {
     @Ignore("Flaky test; server start cannot be awaited")
     @Test
     fun navigateToMolecule() {
-        mockWebServer.dispatcher =
-            object : Dispatcher() {
-                override fun dispatch(request: RecordedRequest): MockResponse =
-                    when (request.path) {
-                        "/api/breeds/list/all" -> {
-                            MockResponse()
-                                .addHeader("Content-Type", "application/json; charset=utf-8")
-                                .setBody(
-                                    """
-                                    {
-                                        "message": {
-                                            "bulldog": [],
-                                            "labrador": [],
-                                            "poodle": []
-                                        },
-                                        "status": "success"
-                                    }
-                                    """.trimIndent(),
-                                )
-                        }
+        val mockWebServer =
+            MockWebServer().apply {
+                dispatcher =
+                    object : Dispatcher() {
+                        override fun dispatch(request: RecordedRequest): MockResponse =
+                            when (request.path) {
+                                "/api/breeds/list/all" -> {
+                                    MockResponse()
+                                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                                        .setBody(
+                                            """
+                                            {
+                                                "message": {
+                                                    "bulldog": [],
+                                                    "labrador": [],
+                                                    "poodle": []
+                                                },
+                                                "status": "success"
+                                            }
+                                            """.trimIndent(),
+                                        )
+                                }
 
-                        "/api/breed/bulldog/images/random" -> {
-                            MockResponse()
-                                .addHeader("Content-Type", "application/json; charset=utf-8")
-                                .setBody(
-                                    """
-                                    {
-                                        "message": "https://example.com/bulldog.jpg",
-                                        "status": "success"
-                                    }
-                                    """.trimIndent(),
-                                )
-                        }
+                                "/api/breed/bulldog/images/random" -> {
+                                    MockResponse()
+                                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                                        .setBody(
+                                            """
+                                            {
+                                                "message": "https://example.com/bulldog.jpg",
+                                                "status": "success"
+                                            }
+                                            """.trimIndent(),
+                                        )
+                                }
 
-                        else -> MockResponse().setResponseCode(404)
+                                else -> MockResponse().setResponseCode(404)
+                            }
                     }
             }
 

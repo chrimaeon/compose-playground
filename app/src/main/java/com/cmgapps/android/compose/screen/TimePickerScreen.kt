@@ -39,12 +39,13 @@ import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.toLocalTime
 import com.cmgapps.android.compose.ui.composable.TimeDailer
 import com.cmgapps.android.compose.viewmodel.TimePickerViewModel
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.char
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
 fun TimePickerScreen(
     backButton: @Composable () -> Unit,

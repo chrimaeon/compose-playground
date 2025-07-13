@@ -182,7 +182,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.adaptive.navigation.android)
-    implementation(libs.androidx.viewmodel)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.compose.animation)
     implementation(libs.coil.compose)

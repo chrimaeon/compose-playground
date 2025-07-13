@@ -50,14 +50,15 @@ import com.cmgapps.android.compose.route.SubRoutes
 import com.cmgapps.android.compose.screen.molecule.MoleculeScreen
 import com.cmgapps.android.compose.toLocalTime
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 private fun ThreePaneScaffoldNavigator<*>.isExpanded(role: ThreePaneScaffoldRole) =
     scaffoldValue[role] == PaneAdaptedValue.Expanded
 
 private data class DetailRouteItem(
-    @StringRes
+    @param:StringRes
     val titleResource: Int,
     val contentKey: SubRoutes,
 )
@@ -65,7 +66,11 @@ private data class DetailRouteItem(
 private val routeItems =
     listOf(
         DetailRouteItem(R.string.chip_text_field, SubRoutes.ChipTextField),
-        DetailRouteItem(R.string.time_picker, SubRoutes.TimePicker(Clock.System.now().toLocalTime())),
+        DetailRouteItem(
+            R.string.time_picker,
+            @OptIn(ExperimentalTime::class)
+            SubRoutes.TimePicker(Clock.System.now().toLocalTime()),
+        ),
         DetailRouteItem(R.string.shared_element_transition, SubRoutes.SharedElementTransition),
         DetailRouteItem(R.string.reveal, SubRoutes.Reveal),
         DetailRouteItem(R.string.parallax_scrolling, SubRoutes.ParallaxScrolling),

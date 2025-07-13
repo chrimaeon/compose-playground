@@ -26,6 +26,10 @@ tasks {
         revision = "release"
 
         rejectVersionIf {
+            // Reject versions that are not stable, except for Paparazzi
+            if (candidate.group == "app.cash.paparazzi") {
+                return@rejectVersionIf false
+            }
             listOf("alpha", "beta", "rc", "cr", "m", "eap", "dev").any { qualifier ->
                 """(?i).*[.-]?$qualifier[.\d-]*"""
                     .toRegex()

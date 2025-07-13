@@ -39,11 +39,12 @@ import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.toLocalTime
 import com.cmgapps.android.compose.ui.theme.Theme
 import kotlinx.coroutines.flow.combine
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
 import timber.log.Timber
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
 @LogTag
 fun TimeDailer(

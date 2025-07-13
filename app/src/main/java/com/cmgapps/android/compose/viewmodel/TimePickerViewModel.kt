@@ -14,9 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cmgapps.android.compose.toLocalTime
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class TimePickerViewModel(
     clock: Clock,
 ) : ViewModel() {
