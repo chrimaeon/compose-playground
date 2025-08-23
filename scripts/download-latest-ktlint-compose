@@ -1,0 +1,17 @@
+#! /bin/sh
+
+BASE_DIR=$(dirname "$0")
+
+ASSET_INFO=$(curl -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/mrmans0n/compose-rules/releases/latest | \
+  jq -r '.assets[] | select(.name | test("ktlint-compose-.*\\.jar")) | "\(.browser_download_url) \(.name)"')
+
+echo "'$ASSET_INFO'"
+
+DOWNLOAD_URL=$(echo "$ASSET_INFO" | cut -d ' ' -f1)
+FILE_NAME=$(echo "$ASSET_INFO" | cut -d ' ' -f2)
+
+echo $DOWNLOAD_URL
+echo $FILE_NAME
+
+
+curl -L -o "$BASE_DIR"/"$FILE_NAME" "$DOWNLOAD_URL"
