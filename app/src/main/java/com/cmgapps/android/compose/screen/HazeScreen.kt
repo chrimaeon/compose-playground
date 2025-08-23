@@ -63,7 +63,7 @@ fun HazeScreen(
         topBar = {
             LargeTopAppBar(
                 title = { Text(stringResource(R.string.haze)) },
-                colors = TopAppBarDefaults.largeTopAppBarColors(Color.Transparent),
+                colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
                 modifier =
                     Modifier
                         .hazeEffect(

@@ -8,6 +8,7 @@ package com.cmgapps.android.compose.route
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.navigation3.runtime.NavKey
 import kotlinx.datetime.LocalTime
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
@@ -15,19 +16,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Parcelize
-data object Home : Parcelable
+data object Home : Parcelable, NavKey
 
 sealed class SubRoutes {
     @Serializable
     @Parcelize
-    data object ChipTextField : SubRoutes(), Parcelable
+    data object ChipTextField : SubRoutes(), Parcelable, NavKey
 
     @Serializable
     @Parcelize
     data class TimePicker(
         val initialTime: LocalTime,
     ) : SubRoutes(),
-        Parcelable {
+        Parcelable,
+        NavKey {
         private companion object : Parceler<TimePicker> {
             override fun TimePicker.write(
                 parcel: Parcel,
@@ -45,50 +47,51 @@ sealed class SubRoutes {
 
     @Parcelize
     @Serializable
-    data object SharedElementTransition : SubRoutes(), Parcelable
+    data object SharedElementTransition : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object Reveal : SubRoutes(), Parcelable
+    data object Reveal : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object Settings : SubRoutes(), Parcelable
+    data object Settings : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object ParallaxScrolling : SubRoutes(), Parcelable
+    data object ParallaxScrolling : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object Haze : SubRoutes(), Parcelable
+    data object Haze : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object PullToRefresh : SubRoutes(), Parcelable
+    data object PullToRefresh : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object Molecule : SubRoutes(), Parcelable
+    data object Molecule : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object AnimateItem : SubRoutes(), Parcelable
+    data object AnimateItem : SubRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
-    data object TextFieldTransformation : SubRoutes(), Parcelable
+    data object TextFieldTransformation : SubRoutes(), Parcelable, NavKey
 }
 
 sealed class SharedElementRoutes {
     @Serializable
     @Parcelize
-    data object Main : SharedElementRoutes(), Parcelable
+    data object Main : SharedElementRoutes(), Parcelable, NavKey
 
     @Parcelize
     @Serializable
     data class Details(
         val id: Int,
     ) : SharedElementRoutes(),
-        Parcelable
+        Parcelable,
+        NavKey
 }

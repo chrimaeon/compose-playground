@@ -25,6 +25,8 @@ ktlint-compose = "0.6.3"
 haze = "1.7.2"
 logtag = "1.1.0"
 lifecycle = "2.11.0"
+nav3Core = "1.0.0-alpha08"
+material3AdaptiveNav3 = "1.0.0-SNAPSHOT"
 
 gradle = "9.6.1"
 
@@ -49,13 +51,14 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3-compose = { group = "androidx.compose.material3", name = "material3", version = "1.4.0" }
 androidx-material3-theme = "com.google.android.material:material:1.14.0"
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
-androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-compose", version.ref = "navigation" }
 androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
 androidx-adaptive-navigation-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation-android", version = "1.2.0" }
 androidx-compose-animation = "androidx.compose.animation:animation:1.11.4"
 androidx-palette = "androidx.palette:palette:1.0.0"
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.16.0" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
+androidx-material3-adaptive-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
 
 junit-bom = { module = "org.junit:junit-bom", version = "6.1.2" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }

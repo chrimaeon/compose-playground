@@ -13,9 +13,10 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,305 +29,285 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
-import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldRole
-import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
-import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
+import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import com.cmgapps.android.compose.R
+import com.cmgapps.android.compose.route.Home
 import com.cmgapps.android.compose.route.SubRoutes
 import com.cmgapps.android.compose.screen.molecule.MoleculeScreen
 import com.cmgapps.android.compose.toLocalTime
-import kotlinx.coroutines.launch
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-private fun ThreePaneScaffoldNavigator<*>.isExpanded(role: ThreePaneScaffoldRole) =
-    scaffoldValue[role] == PaneAdaptedValue.Expanded
+private fun ListDetailSceneStrategy<*>.isExpanded() = directive.maxHorizontalPartitions > 1
 
 private data class DetailRouteItem(
-    @param:StringRes
-    val titleResource: Int,
-    val contentKey: SubRoutes,
+    @param:StringRes val titleResource: Int,
+    val navKey: NavKey,
 )
 
 private val routeItems =
     listOf(
-        DetailRouteItem(R.string.chip_text_field, SubRoutes.ChipTextField),
         DetailRouteItem(
+            R.string.chip_text_field,
+            SubRoutes.ChipTextField,
+        ),
+        @OptIn(ExperimentalTime::class) DetailRouteItem(
             R.string.time_picker,
-            @OptIn(ExperimentalTime::class)
             SubRoutes.TimePicker(Clock.System.now().toLocalTime()),
         ),
-        DetailRouteItem(R.string.shared_element_transition, SubRoutes.SharedElementTransition),
+        DetailRouteItem(
+            R.string.shared_element_transition,
+            SubRoutes.SharedElementTransition,
+        ),
         DetailRouteItem(R.string.reveal, SubRoutes.Reveal),
         DetailRouteItem(R.string.parallax_scrolling, SubRoutes.ParallaxScrolling),
         DetailRouteItem(R.string.haze, SubRoutes.Haze),
         DetailRouteItem(R.string.pull_2_refresh, SubRoutes.PullToRefresh),
         DetailRouteItem(R.string.molecule, SubRoutes.Molecule),
         DetailRouteItem(R.string.animate_item, SubRoutes.AnimateItem),
-        DetailRouteItem(R.string.textfield_transformation, SubRoutes.TextFieldTransformation),
+        DetailRouteItem(R.string.textfield_transformation, SubRoutes.Molecule),
     )
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun Dashboard(
     modifier: Modifier = Modifier,
-    scaffoldNavigator: ThreePaneScaffoldNavigator<SubRoutes> = rememberListDetailPaneScaffoldNavigator<SubRoutes>(),
+    backstack: NavBackStack = rememberNavBackStack(Home),
     deepLink: Uri? = null,
     dogCeoServerBaseUrl: String = "https://dog.ceo/api/",
 ) {
-    val coroutineScope = rememberCoroutineScope()
+    val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
 
-    NavigableListDetailPaneScaffold(
-        modifier = modifier.background(MaterialTheme.colorScheme.background),
-        navigator = scaffoldNavigator,
-        listPane = {
-            AnimatedPane {
-                Scaffold(
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    scaffoldNavigator.navigateTo(
-                                        ListDetailPaneScaffoldRole.Detail,
-                                        SubRoutes.Settings,
-                                    )
-                                }
-                            },
-                        ) {
-                            Icon(Icons.Outlined.Settings, "App Info")
-                        }
-                    },
-                ) { contentPadding ->
-                    LazyColumn(
-                        modifier = Modifier.padding(contentPadding),
-                        contentPadding =
-                            PaddingValues(
-                                bottom = 64.dp,
-                            ),
-                    ) {
-                        items(routeItems) { item ->
-                            NavigationItem(
-                                title = stringResource(id = item.titleResource),
+    LaunchedEffect(deepLink) {
+        deepLink?.pathSegments?.let {
+            if (it.isEmpty()) {
+                return@let
+            }
+            when (it.firstOrNull()) {
+                "cupcake" -> backstack.add(SubRoutes.SharedElementTransition)
+            }
+        }
+    }
+
+    NavDisplay(
+        modifier = modifier,
+        backStack = backstack,
+        onBack = { backstack.removeLastOrNull() },
+        sceneStrategy = listDetailStrategy,
+        entryProvider =
+            entryProvider {
+                entry<Home>(
+                    metadata = ListDetailSceneStrategy.listPane { Box(Modifier.fillMaxSize()) },
+                ) {
+                    Scaffold(
+                        floatingActionButton = {
+                            FloatingActionButton(
                                 onClick = {
-                                    coroutineScope.launch {
-                                        scaffoldNavigator.navigateTo(
-                                            ListDetailPaneScaffoldRole.Detail,
-                                            item.contentKey,
-                                        )
-                                    }
+                                    backstack.add(SubRoutes.Settings)
                                 },
-                            )
-                            HorizontalDivider()
+                            ) {
+                                Icon(Icons.Outlined.Settings, "App Info")
+                            }
+                        },
+                    ) { contentPadding ->
+                        LazyColumn(
+                            modifier = Modifier.padding(contentPadding),
+                            contentPadding =
+                                PaddingValues(
+                                    bottom = 64.dp,
+                                ),
+                        ) {
+                            items(routeItems) { item ->
+                                NavigationItem(
+                                    title = stringResource(id = item.titleResource),
+                                    onClick = {
+                                        backstack.add(item.navKey)
+                                    },
+                                )
+                                HorizontalDivider()
+                            }
                         }
                     }
                 }
-            }
-        },
-        detailPane = {
-            AnimatedPane {
-                scaffoldNavigator.currentDestination?.contentKey?.let {
-                    when (it) {
-                        SubRoutes.ChipTextField -> {
-                            ChipTextFieldScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
+                entry<SubRoutes.ChipTextField>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    ChipTextFieldScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = backstack::removeLastOrNull,
                             )
-                        }
-
-                        is SubRoutes.TimePicker -> {
-                            TimePickerScreen(
-                                initialTime = it.initialTime,
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.SharedElementTransition -> {
-                            SharedElementTransitionScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.Reveal -> {
-                            RevealScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.Settings -> {
-                            SettingsScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.ParallaxScrolling -> {
-                            ParallaxScrollingScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.Haze -> {
-                            HazeScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.PullToRefresh -> {
-                            PullToRefreshScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.Molecule -> {
-                            MoleculeScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                                serverBaseUrl = dogCeoServerBaseUrl,
-                            )
-                        }
-
-                        SubRoutes.AnimateItem -> {
-                            AnimateItemScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-
-                        SubRoutes.TextFieldTransformation -> {
-                            TextFieldTransformationScreen(
-                                backButton = {
-                                    BackButton(
-                                        isVisible = !scaffoldNavigator.isExpanded(ListDetailPaneScaffoldRole.List),
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                scaffoldNavigator.navigateBack()
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        }
-                    }
+                        },
+                    )
                 }
-            }
-
-            LaunchedEffect(deepLink) {
-                deepLink?.pathSegments?.let {
-                    if (it.isEmpty()) {
-                        return@let
-                    }
-                    when (it.firstOrNull()) {
-                        "cupcake" -> {
-                            scaffoldNavigator.navigateTo(
-                                ListDetailPaneScaffoldRole.Detail,
-                                SubRoutes.SharedElementTransition,
+                entry<SubRoutes.TimePicker>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    TimePickerScreen(
+                        initialTime = it.initialTime,
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
                             )
-                        }
-                    }
+                        },
+                    )
                 }
-            }
-        },
+                entry<SubRoutes.SharedElementTransition>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    SharedElementTransitionScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.Reveal>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    RevealScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.Settings>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    SettingsScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.ParallaxScrolling>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    ParallaxScrollingScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.Haze>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    HazeScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.PullToRefresh>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    PullToRefreshScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.Molecule>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    MoleculeScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                        serverBaseUrl = dogCeoServerBaseUrl,
+                    )
+                }
+
+                entry<SubRoutes.AnimateItem>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    AnimateItemScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+
+                entry<SubRoutes.TextFieldTransformation>(
+                    metadata = ListDetailSceneStrategy.detailPane(),
+                ) {
+                    TextFieldTransformationScreen(
+                        backButton = {
+                            BackButton(
+                                isVisible = !listDetailStrategy.isExpanded(),
+                                onClick = {
+                                    backstack.removeLastOrNull()
+                                },
+                            )
+                        },
+                    )
+                }
+            },
     )
 }
 
@@ -356,8 +337,7 @@ private fun NavigationItem(
     onClick: () -> Unit,
 ) {
     ListItem(
-        modifier =
-            Modifier.clickable(onClick = onClick),
+        modifier = Modifier.clickable(onClick = onClick),
         headlineContent = { Text(title) },
         trailingContent = {
             IconButton(onClick = onClick) {

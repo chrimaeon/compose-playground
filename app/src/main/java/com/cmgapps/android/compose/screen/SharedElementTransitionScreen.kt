@@ -11,7 +11,6 @@ import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
@@ -68,11 +67,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.entry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
+import androidx.navigation3.ui.NavDisplay
 import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
@@ -114,7 +114,7 @@ fun SharedElementTransitionScreen(
     SharedTransitionLayout(
         modifier = modifier,
     ) {
-        val navController = rememberNavController()
+        val backstack = rememberNavBackStack(SharedElementRoutes.Main)
 
         val cupcakes =
             remember { mutableStateListOf<Cupcake>() }
@@ -126,7 +126,7 @@ fun SharedElementTransitionScreen(
         }
 
         SharedElementNavHost(
-            navController = navController,
+            backstack = backstack,
             cupcakes = cupcakes,
             imageBoundsTransform = { _, _ ->
                 spring(
@@ -143,36 +143,34 @@ fun SharedElementTransitionScreen(
 @VisibleForTesting
 @Composable
 fun SharedTransitionScope.SharedElementNavHost(
-    navController: NavHostController,
+    backstack: NavBackStack,
     cupcakes: List<Cupcake>,
     imageBoundsTransform: BoundsTransform,
     backButton: @Composable () -> Unit,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = SharedElementRoutes.Main,
-    ) {
-        composable<SharedElementRoutes.Main> {
-            MainContent(
-                cupcakes = cupcakes,
-                onShowDetails = { id -> navController.navigate(SharedElementRoutes.Details(id)) },
-                sharedTransitionScope = this@SharedElementNavHost,
-                animatedVisibilityScope = this@composable,
-                imageBoundsTransform = imageBoundsTransform,
-                backButton = backButton,
-            )
-        }
-        composable<SharedElementRoutes.Details> { backstack ->
-            val details = backstack.toRoute<SharedElementRoutes.Details>()
-            DetailsContent(
-                cupcake = cupcakes.first { it.id == details.id },
-                onBack = navController::popBackStack,
-                sharedTransitionScope = this@SharedElementNavHost,
-                animatedVisibilityScope = this@composable,
-                imageBoundsTransform = imageBoundsTransform,
-            )
-        }
-    }
+    NavDisplay(
+        backStack = backstack,
+        entryProvider =
+            entryProvider {
+                entry<SharedElementRoutes.Main> {
+                    MainContent(
+                        cupcakes = cupcakes,
+                        onShowDetails = { id -> backstack.add(SharedElementRoutes.Details(id)) },
+                        sharedTransitionScope = this@SharedElementNavHost,
+                        imageBoundsTransform = imageBoundsTransform,
+                        backButton = backButton,
+                    )
+                }
+                entry<SharedElementRoutes.Details> { key ->
+                    DetailsContent(
+                        cupcake = cupcakes.first { it.id == key.id },
+                        onBack = { backstack.removeLastOrNull() },
+                        sharedTransitionScope = this@SharedElementNavHost,
+                        imageBoundsTransform = imageBoundsTransform,
+                    )
+                }
+            },
+    )
 }
 
 @SuppressLint("RestrictedApi")
@@ -183,7 +181,6 @@ fun MainContent(
     cupcakes: List<Cupcake>,
     onShowDetails: (Int) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     imageBoundsTransform: BoundsTransform,
     backButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
@@ -272,7 +269,7 @@ fun MainContent(
                                             rememberSharedContentState(
                                                 key = IMAGE_KEY + cupcake.id,
                                             ),
-                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
                                             boundsTransform = imageBoundsTransform,
                                         ).size(120.dp)
                                         .clip(CircleShape),
@@ -314,7 +311,7 @@ fun MainContent(
                                 modifier =
                                     Modifier.sharedBounds(
                                         rememberSharedContentState(key = TEXT_KEY + cupcake.id),
-                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        animatedVisibilityScope = LocalNavAnimatedContentScope.current,
                                     ),
                                 style = MaterialTheme.typography.labelMedium.copy(color = onBackgroundGradient),
                             )
@@ -333,7 +330,6 @@ fun DetailsContent(
     cupcake: Cupcake,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     imageBoundsTransform: BoundsTransform,
     modifier: Modifier = Modifier,
 ) {
@@ -348,7 +344,7 @@ fun DetailsContent(
                             modifier =
                                 Modifier.sharedBounds(
                                     rememberSharedContentState(key = TEXT_KEY + cupcake.id),
-                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    animatedVisibilityScope = LocalNavAnimatedContentScope.current,
                                 ),
                         )
                     }
@@ -387,7 +383,7 @@ fun DetailsContent(
                                 rememberSharedContentState(
                                     key = IMAGE_KEY + cupcake.id,
                                 ),
-                                animatedVisibilityScope = animatedVisibilityScope,
+                                animatedVisibilityScope = LocalNavAnimatedContentScope.current,
                                 boundsTransform = imageBoundsTransform,
                             ).size(300.dp)
                             .clip(CircleShape),

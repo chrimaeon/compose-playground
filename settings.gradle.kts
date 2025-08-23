@@ -45,6 +45,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            name = "AndroidX Snapshot"
+            // Used for androidx-material3-adaptive-navigation3
+            url = uri("https://androidx.dev/snapshots/builds/13617490/artifacts/repository")
+        }
     }
 }
 

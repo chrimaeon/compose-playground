@@ -23,12 +23,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -107,7 +107,7 @@ fun ChipTextField(
                             .fillMaxWidth()
                             .clickable {
                                 focusRequester.requestFocus()
-                            }.menuAnchor(MenuAnchorType.PrimaryEditable),
+                            }.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalArrangement = Arrangement.Center,
                 ) {
