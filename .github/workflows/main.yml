@@ -46,8 +46,8 @@ jobs:
         with:
           name: app-test-results
           path: |
-            "**/build/reports"
-            "**/build/test-results"
+            "**/build/reports/"
+            "**/build/test-results/"
 
 
   connectedAndroidTest:

@@ -62,8 +62,8 @@ fun SettingsScreen(
             TopAppBar(title = { Text(stringResource(R.string.settings)) }, navigationIcon = backButton)
         },
     ) { contentPadding ->
-        var showOssDialog by rememberSaveable(key = "showOssDialog") { mutableStateOf(false) }
-        var showOflDialog by rememberSaveable(key = "showOflDialog") { mutableStateOf(false) }
+        var showOssDialog by rememberSaveable { mutableStateOf(false) }
+        var showOflDialog by rememberSaveable { mutableStateOf(false) }
 
         LazyColumn(
             modifier = Modifier.padding(contentPadding),
