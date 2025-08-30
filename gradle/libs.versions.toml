@@ -5,15 +5,15 @@ compileSdk = "36"
 targetSdk = "36"
 minSdk = "26"
 
-agp = "8.12.1"
+agp = "8.13.0"
 kotlin = "2.2.10"
 navigation = "2.9.3"
-reveal = "3.3.0"
-licenses = "5.0.0"
+reveal = "4.0.0"
+licenses = "5.1.0"
 ktlint-compose = "0.4.27"
 haze = "1.6.10"
 logtag = "1.1.0"
-lifecycle = "2.9.2"
+lifecycle = "2.9.3"
 
 gradle = "9.0.0"
 
@@ -27,7 +27,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.10.1" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2025.08.00" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version = "2025.08.01" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }

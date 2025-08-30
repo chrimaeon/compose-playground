@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.cmgapps.android.compose.R
+import com.svenjacobs.reveal.OnClick
 import com.svenjacobs.reveal.Reveal
 import com.svenjacobs.reveal.RevealCanvas
 import com.svenjacobs.reveal.RevealOverlayArrangement
@@ -135,7 +136,7 @@ fun RevealScreen(
                             Modifier
                                 .revealable(
                                     key = RevealKey.Step1,
-                                    onClick = { scope.launch { revealState.reveal(RevealKey.Step2) } },
+                                    onClick = OnClick.Listener { scope.launch { revealState.reveal(RevealKey.Step2) } },
                                     shape = MaterialTheme.shapes.medium.toRevealShape(),
                                 ).clickable { scope.launch { revealState.reveal(RevealKey.Step1) } },
                         text = stringResource(R.string.step_one),
@@ -147,7 +148,7 @@ fun RevealScreen(
                             Modifier
                                 .revealable(
                                     key = RevealKey.Step2,
-                                    onClick = { scope.launch { revealState.reveal(RevealKey.Step3) } },
+                                    onClick = OnClick.Listener { scope.launch { revealState.reveal(RevealKey.Step3) } },
                                     shape = MaterialTheme.shapes.medium.toRevealShape(),
                                 ).clickable { scope.launch { revealState.reveal(RevealKey.Step2) } },
                         text = stringResource(R.string.step_two),
@@ -160,7 +161,7 @@ fun RevealScreen(
                             Modifier
                                 .revealable(
                                     key = RevealKey.Step3,
-                                    onClick = { scope.launch { revealState.hide() } },
+                                    onClick = OnClick.Listener { scope.launch { revealState.hide() } },
                                     shape = MaterialTheme.shapes.medium.toRevealShape(),
                                 ).clickable { scope.launch { revealState.reveal(RevealKey.Step3) } },
                         text = stringResource(R.string.step_three),
