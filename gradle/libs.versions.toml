@@ -13,7 +13,7 @@ licenses = "5.0.0"
 ktlint-compose = "0.4.27"
 haze = "1.6.10"
 logtag = "1.1.0"
-lifecycle = "2.9.2"
+lifecycle = "2.9.3"
 
 gradle = "9.0.0"
 
