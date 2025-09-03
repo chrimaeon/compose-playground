@@ -1,26 +1,35 @@
 package com.cmgapps.android.compose.screen
 
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.Posture
-import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.window.core.layout.WindowSizeClass
-import com.cmgapps.android.compose.route.SubRoutes
+import androidx.navigationevent.NavigationEventDispatcher
+import androidx.navigationevent.NavigationEventDispatcherOwner
 import com.cmgapps.android.compose.test.PaparazziTest
+import com.cmgapps.android.compose.viewmodel.NavigationViewModel
+import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 class DashboardShould : PaparazziTest() {
+    private lateinit var navigationViewModel: NavigationViewModel
+
+    private val navigationEventDispatcherOwner =
+        object : NavigationEventDispatcherOwner {
+            override val navigationEventDispatcher = NavigationEventDispatcher()
+        }
+
+    @Before
+    fun setup() {
+        navigationViewModel = NavigationViewModel()
+    }
+
     @Test
     @Ignore("Paparazzi does not work with AGP9.x")
     fun `render dashboard`() {
         // paparazzi.snapshot {
-        //     Dashboard()
+        //     CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner) {
+        //         Dashboard(navigationViewModel = navigationViewModel)
+        //     }
         // }
     }
 
@@ -31,25 +40,13 @@ class DashboardShould : PaparazziTest() {
         //     deviceConfig = DeviceConfig.NEXUS_10.copy(orientation = ScreenOrientation.LANDSCAPE),
         // )
         //
+        // val navigationViewModel = NavigationViewModel()
+        // navigationViewModel.push(SubRoutes.ChipTextField)
+        //
         // paparazzi.snapshot {
-        //     val scope = rememberCoroutineScope()
-        //     val scaffoldNavigator =
-        //         rememberListDetailPaneScaffoldNavigator<SubRoutes>(
-        //             // Hack for ListDetailPane not getting the correct values
-        //             calculatePaneScaffoldDirective(
-        //                 WindowAdaptiveInfo(
-        //                     WindowSizeClass.compute(
-        //                         DeviceConfig.NEXUS_10.screenHeight.toFloat(),
-        //                         DeviceConfig.NEXUS_10.screenWidth.toFloat(),
-        //                     ),
-        //                     Posture(),
-        //                 ),
-        //             ),
-        //         )
-        //     LaunchedEffect(Unit) {
-        //         scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, SubRoutes.ChipTextField)
+        //     CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner) {
+        //         Dashboard(navigationViewModel = navigationViewModel)
         //     }
-        //     Dashboard(scaffoldNavigator = scaffoldNavigator)
         // }
     }
 }

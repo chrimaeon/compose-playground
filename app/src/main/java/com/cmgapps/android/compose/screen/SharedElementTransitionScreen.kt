@@ -68,6 +68,7 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -143,7 +144,7 @@ fun SharedElementTransitionScreen(
 @VisibleForTesting
 @Composable
 fun SharedTransitionScope.SharedElementNavHost(
-    backstack: NavBackStack,
+    backstack: NavBackStack<NavKey>,
     cupcakes: List<Cupcake>,
     imageBoundsTransform: BoundsTransform,
     backButton: @Composable () -> Unit,

@@ -6,92 +6,61 @@
 
 package com.cmgapps.android.compose.route
 
-import android.os.Parcel
-import android.os.Parcelable
+import androidx.annotation.StringRes
 import androidx.navigation3.runtime.NavKey
+import com.cmgapps.android.compose.R
 import kotlinx.datetime.LocalTime
-import kotlinx.parcelize.Parceler
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Parcelize
-data object Home : Parcelable, NavKey
+data object Home : NavKey
 
-sealed class SubRoutes {
+@Serializable
+sealed class SubRoutes(
+    @param:StringRes val titleResource: Int,
+) : NavKey {
     @Serializable
-    @Parcelize
-    data object ChipTextField : SubRoutes(), Parcelable, NavKey
+    data object ChipTextField : SubRoutes(R.string.chip_text_field)
 
     @Serializable
-    @Parcelize
     data class TimePicker(
         val initialTime: LocalTime,
-    ) : SubRoutes(),
-        Parcelable,
-        NavKey {
-        private companion object : Parceler<TimePicker> {
-            override fun TimePicker.write(
-                parcel: Parcel,
-                flags: Int,
-            ) {
-                parcel.writeInt(initialTime.toMillisecondOfDay())
-            }
+    ) : SubRoutes(R.string.time_picker)
 
-            override fun create(parcel: Parcel): TimePicker =
-                TimePicker(
-                    LocalTime.fromMillisecondOfDay(parcel.readInt()),
-                )
-        }
-    }
-
-    @Parcelize
     @Serializable
-    data object SharedElementTransition : SubRoutes(), Parcelable, NavKey
+    data object SharedElementTransition : SubRoutes(R.string.shared_element_transition)
 
-    @Parcelize
     @Serializable
-    data object Reveal : SubRoutes(), Parcelable, NavKey
+    data object Reveal : SubRoutes(R.string.reveal)
 
-    @Parcelize
     @Serializable
-    data object Settings : SubRoutes(), Parcelable, NavKey
+    data object Settings : SubRoutes(R.string.settings)
 
-    @Parcelize
     @Serializable
-    data object ParallaxScrolling : SubRoutes(), Parcelable, NavKey
+    data object ParallaxScrolling : SubRoutes(R.string.parallax_scrolling)
 
-    @Parcelize
     @Serializable
-    data object Haze : SubRoutes(), Parcelable, NavKey
+    data object Haze : SubRoutes(R.string.haze)
 
-    @Parcelize
     @Serializable
-    data object PullToRefresh : SubRoutes(), Parcelable, NavKey
+    data object PullToRefresh : SubRoutes(R.string.pull_2_refresh)
 
-    @Parcelize
     @Serializable
-    data object Molecule : SubRoutes(), Parcelable, NavKey
+    data object Molecule : SubRoutes(R.string.molecule)
 
-    @Parcelize
     @Serializable
-    data object AnimateItem : SubRoutes(), Parcelable, NavKey
+    data object AnimateItem : SubRoutes(R.string.animate_item)
 
-    @Parcelize
     @Serializable
-    data object TextFieldTransformation : SubRoutes(), Parcelable, NavKey
+    data object TextFieldTransformation : SubRoutes(R.string.textfield_transformation)
 }
 
-sealed class SharedElementRoutes {
+sealed class SharedElementRoutes : NavKey {
     @Serializable
-    @Parcelize
-    data object Main : SharedElementRoutes(), Parcelable, NavKey
+    data object Main : SharedElementRoutes()
 
-    @Parcelize
     @Serializable
     data class Details(
         val id: Int,
-    ) : SharedElementRoutes(),
-        Parcelable,
-        NavKey
+    ) : SharedElementRoutes()
 }

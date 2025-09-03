@@ -6,18 +6,17 @@ import androidx.compose.animation.core.Spring.StiffnessMediumLow
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.testing.TestNavHostController
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.cmgapps.android.compose.route.SharedElementRoutes
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.contains
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,17 +24,18 @@ import org.junit.Test
 class SharedElementTransitionScreenShould {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private lateinit var navController: TestNavHostController
+
+    private lateinit var backStack: NavBackStack<NavKey>
 
     @OptIn(ExperimentalSharedTransitionApi::class)
     @Before
     fun setup() {
         composeTestRule.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(ComposeNavigator())
+            backStack = rememberNavBackStack(SharedElementRoutes.Main)
+
             SharedTransitionLayout {
                 SharedElementNavHost(
-                    navController = navController,
+                    backstack = backStack,
                     cupcakes = List(8) { Cupcake(it) },
                     imageBoundsTransform = { _, _ ->
                         spring(
@@ -60,8 +60,8 @@ class SharedElementTransitionScreenShould {
     fun navigateToDetails() {
         composeTestRule.onAllNodesWithTag("CupcakeCard")[0].assertExists().performClick()
         assertThat(
-            navController.currentBackStackEntry?.destination?.hasRoute<SharedElementRoutes.Details>(),
-            `is`(true),
+            backStack,
+            contains(SharedElementRoutes.Main, SharedElementRoutes.Details(0)),
         )
     }
 }

@@ -7,7 +7,6 @@
 package com.cmgapps.android.compose.screen
 
 import android.net.Uri
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
@@ -39,56 +38,42 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation3.runtime.NavBackStack
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
-import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.route.Home
 import com.cmgapps.android.compose.route.SubRoutes
 import com.cmgapps.android.compose.screen.molecule.MoleculeScreen
 import com.cmgapps.android.compose.toLocalTime
+import com.cmgapps.android.compose.viewmodel.NavigationViewModel
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 private fun ListDetailSceneStrategy<*>.isExpanded() = directive.maxHorizontalPartitions > 1
 
-private data class DetailRouteItem(
-    @param:StringRes val titleResource: Int,
-    val navKey: NavKey,
-)
-
+@OptIn(ExperimentalTime::class)
 private val routeItems =
     listOf(
-        DetailRouteItem(
-            R.string.chip_text_field,
-            SubRoutes.ChipTextField,
-        ),
-        @OptIn(ExperimentalTime::class) DetailRouteItem(
-            R.string.time_picker,
-            SubRoutes.TimePicker(Clock.System.now().toLocalTime()),
-        ),
-        DetailRouteItem(
-            R.string.shared_element_transition,
-            SubRoutes.SharedElementTransition,
-        ),
-        DetailRouteItem(R.string.reveal, SubRoutes.Reveal),
-        DetailRouteItem(R.string.parallax_scrolling, SubRoutes.ParallaxScrolling),
-        DetailRouteItem(R.string.haze, SubRoutes.Haze),
-        DetailRouteItem(R.string.pull_2_refresh, SubRoutes.PullToRefresh),
-        DetailRouteItem(R.string.molecule, SubRoutes.Molecule),
-        DetailRouteItem(R.string.animate_item, SubRoutes.AnimateItem),
-        DetailRouteItem(R.string.textfield_transformation, SubRoutes.Molecule),
+        SubRoutes.ChipTextField,
+        SubRoutes.TimePicker(Clock.System.now().toLocalTime()),
+        SubRoutes.SharedElementTransition,
+        SubRoutes.Reveal,
+        SubRoutes.ParallaxScrolling,
+        SubRoutes.Haze,
+        SubRoutes.PullToRefresh,
+        SubRoutes.Molecule,
+        SubRoutes.AnimateItem,
+        SubRoutes.TextFieldTransformation,
     )
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun Dashboard(
     modifier: Modifier = Modifier,
-    backstack: NavBackStack = rememberNavBackStack(Home),
+    navigationViewModel: NavigationViewModel = viewModel(),
     deepLink: Uri? = null,
     dogCeoServerBaseUrl: String = "https://dog.ceo/api/",
 ) {
@@ -100,15 +85,15 @@ fun Dashboard(
                 return@let
             }
             when (it.firstOrNull()) {
-                "cupcake" -> backstack.add(SubRoutes.SharedElementTransition)
+                "cupcake" -> navigationViewModel.push(SubRoutes.SharedElementTransition)
             }
         }
     }
 
     NavDisplay(
         modifier = modifier,
-        backStack = backstack,
-        onBack = { backstack.removeLastOrNull() },
+        backStack = navigationViewModel.backstack,
+        onBack = { keysToRemove -> repeat(keysToRemove) { navigationViewModel.pop() } },
         sceneStrategy = listDetailStrategy,
         entryProvider =
             entryProvider {
@@ -119,10 +104,13 @@ fun Dashboard(
                         floatingActionButton = {
                             FloatingActionButton(
                                 onClick = {
-                                    backstack.add(SubRoutes.Settings)
+                                    navigationViewModel.push(SubRoutes.Settings)
                                 },
                             ) {
-                                Icon(Icons.Outlined.Settings, "App Info")
+                                Icon(
+                                    Icons.Outlined.Settings,
+                                    contentDescription = stringResource(SubRoutes.Settings.titleResource),
+                                )
                             }
                         },
                     ) { contentPadding ->
@@ -137,7 +125,7 @@ fun Dashboard(
                                 NavigationItem(
                                     title = stringResource(id = item.titleResource),
                                     onClick = {
-                                        backstack.add(item.navKey)
+                                        navigationViewModel.push(item)
                                     },
                                 )
                                 HorizontalDivider()
@@ -152,7 +140,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = backstack::removeLastOrNull,
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -165,9 +153,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -179,9 +165,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -194,9 +178,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -209,9 +191,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -224,9 +204,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -239,9 +217,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -254,9 +230,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -269,9 +243,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                         serverBaseUrl = dogCeoServerBaseUrl,
@@ -285,9 +257,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
@@ -300,9 +270,7 @@ fun Dashboard(
                         backButton = {
                             BackButton(
                                 isVisible = !listDetailStrategy.isExpanded(),
-                                onClick = {
-                                    backstack.removeLastOrNull()
-                                },
+                                onClick = navigationViewModel::pop,
                             )
                         },
                     )
