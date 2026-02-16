@@ -42,7 +42,7 @@ jobs:
 
       - name: Archive App Test results
         if: ${{ success() || failure() }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: app-test-results
           path: |
@@ -128,7 +128,7 @@ jobs:
 
       - name: Upload test reports
         if: ${{ success() || failure() }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: test-reports-${{ matrix.api-level }}-${{ matrix.target }}-${{ matrix.profile }}-${{ matrix.api-level < 28 && 'x86' || 'x86_64' }}
           path: "**/build/reports/androidTests"
@@ -186,7 +186,7 @@ jobs:
 #
 #      - name: Upload test reports
 #        if: ${{ success() || failure() }}
-#        uses: actions/upload-artifact@v5
+#        uses: actions/upload-artifact@v6
 #        with:
 #          name: test-reports
 #          path: "**/build/reports/androidTests"
