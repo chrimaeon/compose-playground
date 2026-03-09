@@ -70,7 +70,7 @@ haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = 
 
 timber = "com.jakewharton.timber:timber:5.0.1"
 
-molecule = "app.cash.molecule:molecule-runtime:2.1.0"
+molecule = "app.cash.molecule:molecule-runtime:2.2.0"
 
 hamcrest = "org.hamcrest:hamcrest:3.0"
 
