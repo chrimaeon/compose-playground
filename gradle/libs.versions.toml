@@ -54,7 +54,7 @@ junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }
 coil-compose = "io.coil-kt:coil-compose:2.7.0"
 
 kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1-0.6.x-compat"
 kotlinx-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
 
 ktlint-cli = "com.pinterest.ktlint:ktlint-cli:1.7.1"
