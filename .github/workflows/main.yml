@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [ 27, 36 ]
+        api-level: [ 27, 37 ]
         target: [ google_apis ]
         profile: [ "pixel", "pixel_c" ]
     steps:

@@ -9,13 +9,12 @@ import java.time.LocalDate
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version libs.versions.kotlin
     kotlin("plugin.parcelize")
     alias(libs.plugins.ksp)
     id("com.cmgapps.gradle.ktlint")
-    alias(libs.plugins.paparazzi)
+    // alias(libs.plugins.paparazzi)
     id("licenses")
 }
 
@@ -89,6 +88,7 @@ android {
     }
 
     testOptions {
+        unitTests.isReturnDefaultValues = true
         unitTests.all { test ->
             test.useJUnitPlatform()
             test.testLogging {
@@ -148,7 +148,7 @@ kotlin {
 
 tasks {
     check {
-        dependsOn(verifyPaparazzi)
+        // dependsOn(verifyPaparazzi)
     }
 }
 
@@ -203,10 +203,13 @@ dependencies {
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.serialization)
 
+    implementation(libs.romainguy.vibrance.compose)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
     testImplementation(platform(libs.junit.bom))
+    testCompileOnly("junit:junit:4.13")
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
     testRuntimeOnly(libs.junit.jupiter.engine)

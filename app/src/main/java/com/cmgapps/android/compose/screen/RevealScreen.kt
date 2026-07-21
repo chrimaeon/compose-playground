@@ -175,7 +175,7 @@ fun RevealScreen(
 @Composable
 private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
     when (key) {
-        RevealKey.Step1 ->
+        RevealKey.Step1 -> {
             OverlayText(
                 stringResource(R.string.onboarding_step1),
                 modifier =
@@ -184,8 +184,9 @@ private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
                     ),
                 arrow = Arrow.bottom(),
             )
+        }
 
-        RevealKey.Step2 ->
+        RevealKey.Step2 -> {
             OverlayText(
                 stringResource(R.string.onboarding_step2),
                 modifier =
@@ -194,8 +195,9 @@ private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
                     ),
                 arrow = Arrow.end(),
             )
+        }
 
-        RevealKey.Step3 ->
+        RevealKey.Step3 -> {
             OverlayText(
                 stringResource(R.string.onboarding_step3),
                 modifier =
@@ -204,6 +206,7 @@ private fun RevealOverlayScope.OverlayContent(key: RevealKey) {
                     ),
                 arrow = Arrow.top(),
             )
+        }
     }
 }
 
@@ -233,21 +236,23 @@ fun CornerBasedShape.toRevealShape() =
         onClip = { size, density, layoutDirection ->
             val (topLeft, topRight, bottomRight, bottomLeft) =
                 when (layoutDirection) {
-                    LayoutDirection.Ltr ->
+                    LayoutDirection.Ltr -> {
                         listOf(
                             this@toRevealShape.topStart,
                             this@toRevealShape.topEnd,
                             this@toRevealShape.bottomEnd,
                             this@toRevealShape.bottomStart,
                         )
+                    }
 
-                    LayoutDirection.Rtl ->
+                    LayoutDirection.Rtl -> {
                         listOf(
                             this@toRevealShape.topEnd,
                             this@toRevealShape.topStart,
                             this@toRevealShape.bottomStart,
                             this@toRevealShape.bottomEnd,
                         )
+                    }
                 }
 
             Path().apply {

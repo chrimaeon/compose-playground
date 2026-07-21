@@ -141,7 +141,7 @@ fun Dashboard(
             AnimatedPane {
                 scaffoldNavigator.currentDestination?.contentKey?.let {
                     when (it) {
-                        SubRoutes.ChipTextField ->
+                        SubRoutes.ChipTextField -> {
                             ChipTextFieldScreen(
                                 backButton = {
                                     BackButton(
@@ -154,8 +154,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        is SubRoutes.TimePicker ->
+                        is SubRoutes.TimePicker -> {
                             TimePickerScreen(
                                 initialTime = it.initialTime,
                                 backButton = {
@@ -169,8 +170,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.SharedElementTransition ->
+                        SubRoutes.SharedElementTransition -> {
                             SharedElementTransitionScreen(
                                 backButton = {
                                     BackButton(
@@ -183,8 +185,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.Reveal ->
+                        SubRoutes.Reveal -> {
                             RevealScreen(
                                 backButton = {
                                     BackButton(
@@ -197,8 +200,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.Settings ->
+                        SubRoutes.Settings -> {
                             SettingsScreen(
                                 backButton = {
                                     BackButton(
@@ -211,8 +215,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.ParallaxScrolling ->
+                        SubRoutes.ParallaxScrolling -> {
                             ParallaxScrollingScreen(
                                 backButton = {
                                     BackButton(
@@ -225,8 +230,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.Haze ->
+                        SubRoutes.Haze -> {
                             HazeScreen(
                                 backButton = {
                                     BackButton(
@@ -239,8 +245,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.PullToRefresh ->
+                        SubRoutes.PullToRefresh -> {
                             PullToRefreshScreen(
                                 backButton = {
                                     BackButton(
@@ -253,8 +260,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.Molecule ->
+                        SubRoutes.Molecule -> {
                             MoleculeScreen(
                                 backButton = {
                                     BackButton(
@@ -268,8 +276,9 @@ fun Dashboard(
                                 },
                                 serverBaseUrl = dogCeoServerBaseUrl,
                             )
+                        }
 
-                        SubRoutes.AnimateItem ->
+                        SubRoutes.AnimateItem -> {
                             AnimateItemScreen(
                                 backButton = {
                                     BackButton(
@@ -282,8 +291,9 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
 
-                        SubRoutes.TextFieldTransformation ->
+                        SubRoutes.TextFieldTransformation -> {
                             TextFieldTransformationScreen(
                                 backButton = {
                                     BackButton(
@@ -296,6 +306,7 @@ fun Dashboard(
                                     )
                                 },
                             )
+                        }
                     }
                 }
             }
@@ -306,11 +317,12 @@ fun Dashboard(
                         return@let
                     }
                     when (it.firstOrNull()) {
-                        "cupcake" ->
+                        "cupcake" -> {
                             scaffoldNavigator.navigateTo(
                                 ListDetailPaneScaffoldRole.Detail,
                                 SubRoutes.SharedElementTransition,
                             )
+                        }
                     }
                 }
             }

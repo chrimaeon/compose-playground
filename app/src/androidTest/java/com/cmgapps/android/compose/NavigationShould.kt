@@ -181,7 +181,9 @@ class NavigationShould {
                                         )
                                 }
 
-                                else -> MockResponse().setResponseCode(404)
+                                else -> {
+                                    MockResponse().setResponseCode(404)
+                                }
                             }
                     }
             }

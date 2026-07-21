@@ -79,13 +79,14 @@ import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import com.cmgapps.android.compose.R
 import com.cmgapps.android.compose.route.SharedElementRoutes
+import com.cmgapps.android.compose.ui.graphics.BrushCompat
 import com.cmgapps.android.compose.ui.theme.isDark
 import com.google.android.material.color.utilities.Hct
 import com.google.android.material.color.utilities.MaterialDynamicColors
 import com.google.android.material.color.utilities.SchemeContent
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 private const val IMAGE_KEY = "image-key"
 private const val TEXT_KEY = "label"
@@ -93,7 +94,7 @@ private const val PLACEHOLDER_SMALL_KEY = "placeholder-small"
 private const val PLACEHOLDER_LARGE_KEY = "placeholder-large"
 
 suspend fun AsyncImagePainter.State.Success.createPalette(): Palette? =
-    suspendCoroutine { continuation ->
+    suspendCancellableCoroutine { continuation ->
         Palette
             .from(
                 result.drawable
@@ -234,8 +235,9 @@ fun MainContent(
                     var backgroundGradient: Brush by
                         remember {
                             mutableStateOf(
-                                Brush.verticalGradient(
-                                    listOf(surface, surfaceVariant),
+                                BrushCompat.verticalGradient(
+                                    startColor = surface,
+                                    endColor = surfaceVariant,
                                 ),
                             )
                         }
@@ -293,13 +295,12 @@ fun MainContent(
                                         val material = MaterialDynamicColors()
 
                                         backgroundGradient =
-                                            Brush.verticalGradient(
-                                                listOf(
-                                                    Color(material.primaryContainer().getArgb(schema)),
+                                            BrushCompat.verticalGradient(
+                                                startColor = Color(material.primaryContainer().getArgb(schema)),
+                                                endColor =
                                                     Color(
                                                         material.secondaryContainer().getArgb(schema),
                                                     ),
-                                                ),
                                             )
 
                                         onBackgroundGradient =

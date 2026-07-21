@@ -31,10 +31,11 @@ class Application :
     override fun onCreate() {
         super.onCreate()
         when {
-            DynamicColors.isDynamicColorAvailable() ->
+            DynamicColors.isDynamicColorAvailable() -> {
                 DynamicColors.applyToActivitiesIfAvailable(this)
+            }
 
-            ColorContrast.isContrastAvailable() ->
+            ColorContrast.isContrastAvailable() -> {
                 ColorContrast.applyToActivitiesIfAvailable(
                     this,
                     ColorContrastOptions
@@ -43,6 +44,7 @@ class Application :
                         .setHighContrastThemeOverlay(R.style.ThemeOverlay_AppTheme_HighContrast)
                         .build(),
                 )
+            }
         }
 
         if (BuildConfig.DEBUG) {

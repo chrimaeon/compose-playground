@@ -6,6 +6,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import de.fayard.refreshVersions.core.FeatureFlag
+import de.fayard.refreshVersions.core.StabilityLevel
+
 rootProject.name = "Compose Playground"
 
 pluginManagement {
@@ -20,6 +23,20 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+    }
+}
+
+plugins {
+    id("de.fayard.refreshVersions") version "0.60.6"
+}
+
+refreshVersions {
+    featureFlags {
+        enable(FeatureFlag.GRADLE_UPDATES)
+    }
+
+    rejectVersionIf {
+        candidate.stabilityLevel != StabilityLevel.Stable
     }
 }
 

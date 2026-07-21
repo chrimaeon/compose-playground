@@ -9,21 +9,22 @@ import org.junit.Ignore
 import org.junit.Test
 
 class SharedElementTransitionScreenShould : PaparazziTest() {
-    @Ignore("Software rendering doesn't support drawRenderNode")
+    @Ignore("Paparazzi does not work with AGP9.x")
+    // @Ignore("Software rendering doesn't support drawRenderNode")
     @Test
     fun `render list`() {
-        paparazzi
-            .snapshot {
-                CompositionLocalProvider(
-                    LocalViewModelStoreOwner provides
-                        object : ViewModelStoreOwner {
-                            override val viewModelStore = ViewModelStore()
-                        },
-                ) {
-                    SharedElementTransitionScreen(
-                        backButton = {},
-                    )
-                }
-            }
+        // paparazzi
+        //     .snapshot {
+        //         CompositionLocalProvider(
+        //             LocalViewModelStoreOwner provides
+        //                 object : ViewModelStoreOwner {
+        //                     override val viewModelStore = ViewModelStore()
+        //                 },
+        //         ) {
+        //             SharedElementTransitionScreen(
+        //                 backButton = {},
+        //             )
+        //         }
+        //     }
     }
 }

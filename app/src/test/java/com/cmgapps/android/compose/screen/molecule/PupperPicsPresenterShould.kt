@@ -2,7 +2,6 @@ package com.cmgapps.android.compose.screen.molecule
 
 import app.cash.molecule.RecompositionMode
 import app.cash.molecule.moleculeFlow
-import app.cash.paparazzi.Paparazzi
 import app.cash.turbine.Turbine
 import app.cash.turbine.test
 import com.cmgapps.android.compose.service.PupperPicsService
@@ -19,13 +18,13 @@ import org.junit.Test
 class PupperPicsPresenterShould {
     private lateinit var service: FakePupperPicsService
 
-    /**
-     * Needed because of "Caused by: java.lang.UnsatisfiedLinkError: 'long android.os.Trace.nativeGetEnabledTags()'"
-     *
-     * See [https://github.com/cashapp/paparazzi/issues/1149](https://github.com/cashapp/paparazzi/issues/1149)
-     */
-    @get:Rule
-    val paparazzi = Paparazzi()
+    // /**
+    //  * Needed because of "Caused by: java.lang.UnsatisfiedLinkError: 'long android.os.Trace.nativeGetEnabledTags()'"
+    //  *
+    //  * See [https://github.com/cashapp/paparazzi/issues/1149](https://github.com/cashapp/paparazzi/issues/1149)
+    //  */
+    // @get:Rule
+    // val paparazzi = Paparazzi()
 
     @Before
     fun setup() {
